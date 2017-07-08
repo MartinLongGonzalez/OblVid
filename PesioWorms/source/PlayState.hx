@@ -36,7 +36,7 @@ import openfl.display.BitmapDataChannel;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
-
+import Bullet.BulletType;
 class PlayState extends FlxState
 {
 	private var bodyList:BodyList = null;
@@ -48,9 +48,9 @@ class PlayState extends FlxState
 	private var player:Player;
 	private var text1:FlxTextField;
 	private var text2:FlxTextField;
-	private var text3:FlxTextField;
-	private var bullet:ProjectileBullet;
-	private var bullet2:StraightBullet;
+	private var text_time:FlxTextField;
+	private var text_weapon:FlxTextField;
+	private var bullet:Bullet;
 	private var turn:Turn;
 
 	var currentShootingTime:Float = 0; // Estas vars son para pausear las acciones de los jugadores despues de que disparan por 5 segundos
@@ -129,7 +129,7 @@ class PlayState extends FlxState
 				InteractionType.COLLISION,
 				ProjectileBullet.CB_PROJECTILE_BULLET,
 				CbType.ANY_BODY,
-				projectileBulletHitTerrain));
+				bulletHitTerrain));
 				
 		FlxNapeSpace.space.listeners.add(
 			new InteractionListener(
@@ -153,7 +153,7 @@ class PlayState extends FlxState
 				InteractionType.COLLISION,
 				StraightBullet.CB_STRAIGHT_BULLET,
 				CbType.ANY_BODY,
-				straightBulletHitTerrain));
+				bulletHitTerrain));
 				
 		FlxNapeSpace.space.listeners.add(
 			new InteractionListener(
@@ -179,8 +179,10 @@ class PlayState extends FlxState
 		add(text1);
 		text2 = new FlxTextField(10, 10, 100, "Player 2: 100 HP", 9, true, null);
 		add(text2);
-		text3 = new FlxTextField(320, 10, 100, "", 9, true, null);
-		add(text3);
+		text_time = new FlxTextField(320, 10, 100, "20", 9, true, null);
+		add(text_time);
+		text_weapon = new FlxTextField(320, 20, 100, "20", 9, true, null);
+		add(text_weapon);
 	}
 	
 	function explosion(pos:Vec2, explosionRatio:Float = 2)
@@ -237,7 +239,18 @@ class PlayState extends FlxState
 			{
 				//player.body.= 1000;
 			}
-			log("" + (20 - turn.timer.currentCount / 100));
+			if (FlxG.keys.pressed.ONE)
+			{
+					player.bulletSelected = BulletType.Projectile;
+					text_weapon.text = "BAZOOKA";
+			}
+			if (FlxG.keys.pressed.TWO)
+			{
+					player.bulletSelected = BulletType.Straight;
+					text_weapon.text = "SHOTGUN";
+			}
+			
+			log(("" + (20 - turn.timer.currentCount / 100)).substr(0,2) );
 			//if (20 - turn.timer.currentCount / 100 <= 0)
 				//turn.finish();
 
@@ -248,14 +261,15 @@ class PlayState extends FlxState
 				turn.paused = true;
 			}
 			if (FlxG.keys.justPressed.SPACE){
-				shootBullet2();
-				 turn.paused = true;
+				//shootBullet2();
+				// turn.paused = true;
 			}
 		}else{
 				currentShootingTime += elapsed;
 				if (currentShootingTime > maxShootingTime){
 					turn.finish();
 					player = turn.player;
+					updateWeaponText();
 					currentShootingTime = 0;
 				}
 				 
@@ -264,6 +278,8 @@ class PlayState extends FlxState
 		super.update(elapsed);
 	}
 
+	
+	
 	function createObject(pos:Vec2)
 	{
 		var sprite = new FlxNapeSprite(pos.x, pos.y, null, false);
@@ -292,82 +308,36 @@ class PlayState extends FlxState
 		var mousePosition = FlxG.mouse.getPosition();
 		var playerPosX = player.body.position.x;
 		var playerPosY = player.body.position.y;
-		
-		bullet = new ProjectileBullet(playerPosX, playerPosY + 30);
+		switch (player.bulletSelected){
+			case BulletType.Projectile: { bullet = new ProjectileBullet(playerPosX + 30, playerPosY - 30); }
+			case BulletType.Straight: { bullet = new StraightBullet(playerPosX + 30, playerPosY - 30); }
+		}
+		//bullet = new ProjectileBullet(playerPosX + 30, playerPosY + 30);
 		add(bullet);
 		//bullet.makeGraphic(20, 20, FlxColor.WHITE);
-		bullet.body.position.x = playerPosX;
-		bullet.body.position.y = playerPosY-30;
+		//bullet.body.position.x = playerPosX;
+		//bullet.body.position.y = playerPosY-30;
 		var angle = FlxG.mouse.getPosition()
 			.angleBetween(FlxPoint.get(bullet.body.position.x, bullet.body.position.y));
 		angle += 90;
 		bullet.body.velocity.setxy(
-			500 * Math.cos(angle * 3.14 / 180),
-			500 * Math.sin(angle * 3.14 / 180));
+			bullet.speed * Math.cos(angle * 3.14 / 180),
+			bullet.speed * Math.sin(angle * 3.14 / 180));
 		
 		bullet.body.angularVel = 30;
 
 	}
 
-	private function shootBullet2()
+
+	public function bulletHitTerrain(callback:InteractionCallback)
 	{
-
-		//player = turn.player;
-		var mousePosition = FlxG.mouse.getPosition();
-		var playerPosX = player.body.position.x;
-		var playerPosY = player.body.position.y;
-		
-		bullet2 = new StraightBullet(playerPosX, playerPosY + 30);
-		add(bullet2);
-		//bullet.makeGraphic(20, 20, FlxColor.WHITE);
-		bullet2.body.position.x = playerPosX;
-		bullet2.body.position.y = playerPosY-30;
-		var angle = FlxG.mouse.getPosition()
-			.angleBetween(FlxPoint.get(bullet2.body.position.x, bullet2.body.position.y));
-		angle += 90;
-		bullet2.body.velocity.setxy(
-			5000 * Math.cos(angle * 3.14 / 180),
-			5000 * Math.sin(angle * 3.14 / 180));
-		
-		bullet2.body.angularVel = 30;
-
-	}
-
-	public function projectileBulletHitTerrain(callback:InteractionCallback)
-	{
-		explosion(bullet.body.position, 2);
+		explosion(bullet.body.position, bullet.explotionRatio);
 		bullet.destroy();
-
-	}
-	
-		public function straightBulletHitTerrain(callback:InteractionCallback)
-	{
-		//var bulletPos = bullet2.body.position.copy();
-		explosion(bullet2.body.position, 12);
-		bullet2.destroy();
-		//explosion(bulletPos, 6);
-		
-
-	}
+}
 	
 	public function bulletHitPlayer(callback:InteractionCallback)
 	{
-		var interactorCbTypes = callback.int1.cbTypes;
-		interactorCbTypes.foreach(function(obj){
-			if (obj == ProjectileBullet.CB_PROJECTILE_BULLET){
-				var bulletDamage = 45;
-				var explosionForce = 500;
-				var explosionRadius = 50;
-			}
-			if (obj == StraightBullet.CB_STRAIGHT_BULLET){
-				var bulletDamage = 50;
-				var explosionForce = 50;
-				var explosionRadius = 5;
-			}
-		});
-		
-		
-		
+		var bullet_dmg = bullet.damage;
 		var interactorCbTypes2 = callback.int2.cbTypes;
 		interactorCbTypes2.foreach(function(obj){
 			if (obj == Player.CB_PLAYER1)
@@ -376,7 +346,7 @@ class PlayState extends FlxState
 				{
 					if (player.cbType == obj)
 					{
-						player.healthPoints -= 25;
+						player.healthPoints -= bullet_dmg;
 						text1.text = "Player 1: " + player.healthPoints + " HP";
 					}
 				}
@@ -388,18 +358,26 @@ class PlayState extends FlxState
 				{
 					if (player.cbType == obj)
 					{
-						player.healthPoints -= 25;
+						player.healthPoints -= bullet_dmg;
 						text2.text = "Player 2: " + player.healthPoints + " HP";
 					}
 				}
 			}
 		});
-		
+		bullet.destroy();
 		
 	}
 
 	public function log(string)
 	{
-		text3.text = string;
+		text_time.text = string;
+	}
+	
+	public function updateWeaponText()
+	{
+		switch(player.bulletSelected){
+			case BulletType.Projectile: { text_weapon.text = "BAZOOKA"; }
+			case BulletType.Straight: {  text_weapon.text = "SHOTGUN"; }
+		}
 	}
 }
