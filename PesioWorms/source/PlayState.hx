@@ -52,6 +52,9 @@ class PlayState extends FlxState
 	private var bullet:Bullet;
 	private var turn:Turn;
 
+	var currentShootingTime:Float = 0; // Estas vars son para pausear las acciones de los jugadores despues de que disparan por 5 segundos
+	var maxShootingTime:Float = 2;
+	
 	public var CB_BULLET:CbType = new CbType();
 
 	override public function create():Void
@@ -122,12 +125,15 @@ class PlayState extends FlxState
 		add(terrain.sprite);
 		terrain.sprite.alpha = 0;
 		//add players
+
+
 		var playerPosition = new Vec2(0, 0);
-		addPlayer(playerPosition, Player.CB_PLAYER1);
+		var player1 = addPlayer(playerPosition, Player.CB_PLAYER1);
+		turn.player = player;
 		var playerPosition = new Vec2(300,300);
 		addPlayer(playerPosition, Player.CB_PLAYER2);
-
 		// Create bomb sprite for destruction
+		player = player1;
 		bomb = new Sprite();
 		bomb.graphics.beginFill(0xffffff, 1);
 		bomb.graphics.drawCircle(0, 0, 40);
@@ -181,72 +187,43 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		if (FlxG.keys.pressed.RIGHT)     // left
-		{
-			player.body.velocity.x = 100;
-		}
-		if (FlxG.keys.pressed.LEFT)
-		{
-			player.body.velocity.x = -100;
-		}
-		if (FlxG.keys.pressed.UP)
-		{
-			//player.body.velocity.y = -100;
-		}
-		if (FlxG.keys.pressed.DOWN)
-		{
-			//player.body.= 1000;
-		}
-		log("" + (20 - turn.timer.currentCount / 100));
-		//if (20 - turn.timer.currentCount / 100 <= 0)
-			//turn.finish();
-
-		if (FlxG.keys.justPressed.SPACE)
-		{
-			shootBullet();
-		}
-		if (FlxG.mouse.justPressed)
-		{
-			var mp = Vec2.get(FlxG.mouse.x, FlxG.mouse.y);
-
-			bodyList = FlxNapeSpace.space.bodiesUnderPoint(mp, null, bodyList);
-
-			for (body in bodyList)
+		if (turn.paused!=true){
+			if (FlxG.keys.pressed.RIGHT)     // left
 			{
-				if (body.isDynamic())
-				{
-					hand.body2 = body;
-					hand.anchor2 = body.worldPointToLocal(mp, true);
-					hand.active = true;
-					break;
+				player.body.velocity.x = 100;
+			}
+			if (FlxG.keys.pressed.LEFT)
+			{
+				player.body.velocity.x = -100;
+			}
+			if (FlxG.keys.pressed.UP)
+			{
+				//player.body.velocity.y = -100;
+			}
+			if (FlxG.keys.pressed.DOWN)
+			{
+				//player.body.= 1000;
+			}
+			log("" + (20 - turn.timer.currentCount / 100));
+			//if (20 - turn.timer.currentCount / 100 <= 0)
+				//turn.finish();
+
+			//if (FlxG.keys.justPressed.SPACE)
+			if( FlxG.mouse.justPressed)
+			{
+				shootBullet();   
+				turn.paused = true;
+			}
+		}else{
+				currentShootingTime += elapsed;
+				if (currentShootingTime > maxShootingTime){
+					turn.finish();
+					player = turn.player;
+					currentShootingTime = 0;
 				}
-			}
-
-			if (bodyList.empty())
-			{
-				//createObject(mp);
-			}
-			else if (!hand.active)
-			{
-				explosion(mp);
-			}
-
-			// recycle nodes.
-			bodyList.clear();
-
-			mp.dispose();
+				 
+				
 		}
-		else if (FlxG.mouse.justReleased)
-		{
-			hand.active = false;
-		}
-
-		if (hand.active)
-		{
-			hand.anchor1.setxy(FlxG.mouse.x, FlxG.mouse.y);
-			hand.body2.angularVel *= 0.9;
-		}
-
 		super.update(elapsed);
 	}
 
@@ -263,24 +240,25 @@ class PlayState extends FlxState
 		add(sprite);
 	}
 
-	private function addPlayer(pos:Vec2, cbType)
+	private function addPlayer(pos:Vec2, cbType):Player
 	{
-		turn.player = new Player(pos.x, pos.y);
-		turn.player.addCbType(cbType);
-		player = turn.player;
+		player = new Player(pos.x, pos.y);
+		player.addCbType(cbType);
 		turn.players.insert(turn.players.length, player);
-		add(player);
+		return player;
 	}
 
 	private function shootBullet()
 	{
+
+		player = turn.player;
 		var mousePosition = FlxG.mouse.getPosition();
 		var playerPosX = player.body.position.x;
 		var playerPosY = player.body.position.y;
 		bullet = new Bullet(playerPosX, playerPosY + 30);
 		
 		add(bullet);
-		bullet.makeGraphic(20, 20, FlxColor.WHITE);
+		//bullet.makeGraphic(20, 20, FlxColor.WHITE);
 		bullet.body.position.x = playerPosX;
 		bullet.body.position.y = playerPosY-30;
 		var angle = FlxG.mouse.getPosition()
@@ -291,14 +269,14 @@ class PlayState extends FlxState
 			500 * Math.sin(angle * 3.14 / 180));
 		
 		bullet.body.angularVel = 30;
+
 	}
 
 	public function bulletHitTerrain(callback:InteractionCallback)
 	{
 		explosion(bullet.body.position);
 		bullet.destroy();
-		turn.finish();
-		player = turn.player;
+
 	}
 	
 	public function bulletHitPlayer(callback:InteractionCallback)
@@ -329,8 +307,7 @@ class PlayState extends FlxState
 				}
 			}
 		});
-		turn.finish();
-		player = turn.player;
+		
 		
 	}
 

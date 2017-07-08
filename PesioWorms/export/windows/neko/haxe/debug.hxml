@@ -20,7 +20,6 @@
 -D NAPE_NO_INLINE
 -D FLX_NO_MOUSE_ADVANCED
 -D no-compilation
--D NAPE_RELEASE_BUILD
 -D native
 -D FLX_NO_TOUCH
 -D openfl-native

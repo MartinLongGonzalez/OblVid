@@ -123,11 +123,11 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "167",
+			build: "204",
 			company: "HaxeFlixel",
-			file: "FlxNapeTerrain",
+			file: "PesioWorms",
 			fps: 60,
-			name: "FlxNapeDestructibleTerrain",
+			name: "PesioWorms",
 			orientation: "",
 			packageName: "com.example.myapp",
 			version: "0.0.1",
@@ -145,7 +145,7 @@ class ApplicationMain {
 					parameters: "{}",
 					resizable: true,
 					stencilBuffer: true,
-					title: "FlxNapeDestructibleTerrain",
+					title: "PesioWorms",
 					vsync: true,
 					width: 640,
 					x: null,

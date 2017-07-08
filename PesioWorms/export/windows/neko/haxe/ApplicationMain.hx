@@ -26,7 +26,7 @@ class ApplicationMain {
 	
 	public static function main () {
 		
-		flash.Lib.setPackage ("HaxeFlixel", "FlxNapeTerrain", "com.example.myapp", "0.0.1");
+		flash.Lib.setPackage ("HaxeFlixel", "PesioWorms", "com.example.myapp", "0.0.1");
 		
 		
 		#if ios
@@ -40,7 +40,7 @@ class ApplicationMain {
 		telemetryConfig = new hxtelemetry.HxTelemetry.Config ();
 		telemetryConfig.allocations = true;
 		telemetryConfig.host = "localhost";
-		telemetryConfig.app_name = "FlxNapeDestructibleTerrain";
+		telemetryConfig.app_name = "PesioWorms";
 		#end
 		
 		
@@ -141,7 +141,7 @@ class ApplicationMain {
 			(false ? flash.Lib.FULLSCREEN : 0) |
 			(0 == 4 ? flash.Lib.HW_AA_HIRES : 0) |
 			(0 == 2 ? flash.Lib.HW_AA : 0),
-			"FlxNapeDestructibleTerrain",
+			"PesioWorms",
 			null
 			#if mobile, ScaledStage #end
 		);
@@ -318,14 +318,14 @@ class ApplicationMain {
 	public static function main () {
 		
 		#if openfl
-		flash.Lib.setPackage ("HaxeFlixel", "FlxNapeTerrain", "com.example.myapp", "0.0.1");
+		flash.Lib.setPackage ("HaxeFlixel", "PesioWorms", "com.example.myapp", "0.0.1");
 		
 		#end
 		
 		wx.App.boot (function () {
 			
 			
-			frame = wx.Frame.create (null, null, "FlxNapeDestructibleTerrain", null, { width: 640, height: 480 });
+			frame = wx.Frame.create (null, null, "PesioWorms", null, { width: 640, height: 480 });
 			
 			
 			#if openfl
@@ -515,11 +515,11 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "97",
+			build: "174",
 			company: "HaxeFlixel",
-			file: "FlxNapeTerrain",
+			file: "PesioWorms",
 			fps: 60,
-			name: "FlxNapeDestructibleTerrain",
+			name: "PesioWorms",
 			orientation: "landscape",
 			packageName: "com.example.myapp",
 			version: "0.0.1",
@@ -537,7 +537,7 @@ class ApplicationMain {
 					parameters: "{}",
 					resizable: true,
 					stencilBuffer: false,
-					title: "FlxNapeDestructibleTerrain",
+					title: "PesioWorms",
 					vsync: true,
 					width: 640,
 					x: null,

@@ -27,7 +27,7 @@
 -D web
 --remap flash:openfl
 --macro flixel.system.macros.FlxDefines.run()
--js export/html5/bin/FlxNapeTerrain.js
+-js export/html5/bin/PesioWorms.js
 -cp export/html5/haxe
 -D html5
 --macro allowPackage("flash")

@@ -20,14 +20,13 @@
 -D FLX_NO_MOUSE_ADVANCED
 -D flash-use-stage
 -D no-compilation
--D NAPE_RELEASE_BUILD
 -D openfl-flash
 -D fdb
 -D web
 --macro flixel.system.macros.FlxDefines.run()
 -swf-lib export/flash/obj/assets.swf
 -swf-version 11.8
--swf export/flash/bin/FlxNapeTerrain.swf
+-swf export/flash/bin/PesioWorms.swf
 -swf-header 640:480:60:000000
 -cp export/flash/haxe
 -debug
