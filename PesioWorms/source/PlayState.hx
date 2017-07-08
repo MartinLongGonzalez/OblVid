@@ -49,21 +49,23 @@ class PlayState extends FlxState
 	private var text1:FlxTextField;
 	private var text2:FlxTextField;
 	private var text3:FlxTextField;
-	private var bullet:Bullet;
+	private var bullet:ProjectileBullet;
+	private var bullet2:StraightBullet;
 	private var turn:Turn;
 
 	var currentShootingTime:Float = 0; // Estas vars son para pausear las acciones de los jugadores despues de que disparan por 5 segundos
 	var maxShootingTime:Float = 2;
 	
-	public var CB_BULLET:CbType = new CbType();
-
+	//public var CB_PROJECTILE_BULLET:CbType = new CbType();
+	//public var CB_STRAIGHT_BULLET:CbType = new CbType();
+	
 	override public function create():Void
 	{
 		init();
 
 		super.create();
 	}
-
+	
 	private function init():Void
 	{
 		setTextFields();
@@ -77,30 +79,8 @@ class PlayState extends FlxState
 
 		FlxNapeSpace.drawDebug = true;
 
-		FlxNapeSpace.space.listeners.add(
-			new InteractionListener(
-				CbEvent.BEGIN,
-				InteractionType.COLLISION,
-				Bullet.CB_BULLET,
-				CbType.ANY_BODY,
-				bulletHitTerrain));
-				
-		FlxNapeSpace.space.listeners.add(
-			new InteractionListener(
-				CbEvent.BEGIN,
-				InteractionType.COLLISION,
-				Bullet.CB_BULLET,
-				Player.CB_PLAYER1,
-				bulletHitPlayer));
-				
-		FlxNapeSpace.space.listeners.add(
-			new InteractionListener(
-				CbEvent.BEGIN,
-				InteractionType.COLLISION,
-				Bullet.CB_BULLET,
-				Player.CB_PLAYER2,
-				bulletHitPlayer));
-		
+		init_collisions();
+
 
 		hand = new PivotJoint(FlxNapeSpace.space.world, null, Vec2.weak(), Vec2.weak());
 		hand.active = false;
@@ -140,6 +120,59 @@ class PlayState extends FlxState
 
 	}
 	
+	private function init_collisions() : Void {
+		
+				
+		FlxNapeSpace.space.listeners.add(
+			new InteractionListener(
+				CbEvent.BEGIN,
+				InteractionType.COLLISION,
+				ProjectileBullet.CB_PROJECTILE_BULLET,
+				CbType.ANY_BODY,
+				projectileBulletHitTerrain));
+				
+		FlxNapeSpace.space.listeners.add(
+			new InteractionListener(
+				CbEvent.BEGIN,
+				InteractionType.COLLISION,
+				ProjectileBullet.CB_PROJECTILE_BULLET,
+				Player.CB_PLAYER1,
+				bulletHitPlayer));
+				
+		FlxNapeSpace.space.listeners.add(
+			new InteractionListener(
+				CbEvent.BEGIN,
+				InteractionType.COLLISION,
+				ProjectileBullet.CB_PROJECTILE_BULLET,
+				Player.CB_PLAYER2,
+				bulletHitPlayer));
+				
+		FlxNapeSpace.space.listeners.add(
+			new InteractionListener(
+				CbEvent.BEGIN,
+				InteractionType.COLLISION,
+				StraightBullet.CB_STRAIGHT_BULLET,
+				CbType.ANY_BODY,
+				straightBulletHitTerrain));
+				
+		FlxNapeSpace.space.listeners.add(
+			new InteractionListener(
+				CbEvent.BEGIN,
+				InteractionType.COLLISION,
+				StraightBullet.CB_STRAIGHT_BULLET,
+				Player.CB_PLAYER1,
+				bulletHitPlayer));
+				
+		FlxNapeSpace.space.listeners.add(
+			new InteractionListener(
+				CbEvent.BEGIN,
+				InteractionType.COLLISION,
+				StraightBullet.CB_STRAIGHT_BULLET,
+				Player.CB_PLAYER2,
+				bulletHitPlayer));
+		
+	}
+	
 	private function setTextFields()
 	{
 		text1 = new FlxTextField(550, 10, 100, "Player 1: 100 HP", 9, true, null);
@@ -150,14 +183,14 @@ class PlayState extends FlxState
 		add(text3);
 	}
 	
-	function explosion(pos:Vec2)
+	function explosion(pos:Vec2, explosionRatio:Float = 2)
 	{
 		var region = AABB.fromRect(bomb.getBounds(bomb));
 		// Erase bomb graphic out of terrain.
 		#if flash
 		terrain.bitmap.draw(bomb, new Matrix(1, 0, 0, 1, pos.x, pos.y), null, BlendMode.ERASE);
 		#else
-		var radius:Int = Std.int(region.width / 2);
+		var radius:Int = Std.int(region.width / explosionRatio);
 		var diameter:Int = 2 * radius;
 		var radiusSquared:Int = radius * radius;
 		var centerX:Int = Std.int(pos.x);
@@ -214,6 +247,10 @@ class PlayState extends FlxState
 				shootBullet();   
 				turn.paused = true;
 			}
+			if (FlxG.keys.justPressed.SPACE){
+				shootBullet2();
+				 turn.paused = true;
+			}
 		}else{
 				currentShootingTime += elapsed;
 				if (currentShootingTime > maxShootingTime){
@@ -251,12 +288,12 @@ class PlayState extends FlxState
 	private function shootBullet()
 	{
 
-		player = turn.player;
+		//player = turn.player;
 		var mousePosition = FlxG.mouse.getPosition();
 		var playerPosX = player.body.position.x;
 		var playerPosY = player.body.position.y;
-		bullet = new Bullet(playerPosX, playerPosY + 30);
 		
+		bullet = new ProjectileBullet(playerPosX, playerPosY + 30);
 		add(bullet);
 		//bullet.makeGraphic(20, 20, FlxColor.WHITE);
 		bullet.body.position.x = playerPosX;
@@ -272,17 +309,67 @@ class PlayState extends FlxState
 
 	}
 
-	public function bulletHitTerrain(callback:InteractionCallback)
+	private function shootBullet2()
 	{
-		explosion(bullet.body.position);
+
+		//player = turn.player;
+		var mousePosition = FlxG.mouse.getPosition();
+		var playerPosX = player.body.position.x;
+		var playerPosY = player.body.position.y;
+		
+		bullet2 = new StraightBullet(playerPosX, playerPosY + 30);
+		add(bullet2);
+		//bullet.makeGraphic(20, 20, FlxColor.WHITE);
+		bullet2.body.position.x = playerPosX;
+		bullet2.body.position.y = playerPosY-30;
+		var angle = FlxG.mouse.getPosition()
+			.angleBetween(FlxPoint.get(bullet2.body.position.x, bullet2.body.position.y));
+		angle += 90;
+		bullet2.body.velocity.setxy(
+			5000 * Math.cos(angle * 3.14 / 180),
+			5000 * Math.sin(angle * 3.14 / 180));
+		
+		bullet2.body.angularVel = 30;
+
+	}
+
+	public function projectileBulletHitTerrain(callback:InteractionCallback)
+	{
+		explosion(bullet.body.position, 2);
 		bullet.destroy();
+
+	}
+	
+		public function straightBulletHitTerrain(callback:InteractionCallback)
+	{
+		//var bulletPos = bullet2.body.position.copy();
+		explosion(bullet2.body.position, 12);
+		bullet2.destroy();
+		//explosion(bulletPos, 6);
+		
 
 	}
 	
 	public function bulletHitPlayer(callback:InteractionCallback)
 	{
-		var interactorCbTypes = callback.int2.cbTypes;
+		var interactorCbTypes = callback.int1.cbTypes;
 		interactorCbTypes.foreach(function(obj){
+			if (obj == ProjectileBullet.CB_PROJECTILE_BULLET){
+				var bulletDamage = 45;
+				var explosionForce = 500;
+				var explosionRadius = 50;
+			}
+			if (obj == StraightBullet.CB_STRAIGHT_BULLET){
+				var bulletDamage = 50;
+				var explosionForce = 50;
+				var explosionRadius = 5;
+			}
+		});
+		
+		
+		
+		var interactorCbTypes2 = callback.int2.cbTypes;
+		interactorCbTypes2.foreach(function(obj){
 			if (obj == Player.CB_PLAYER1)
 			{
 				for (player in turn.players)

@@ -19,6 +19,11 @@ class Player extends FlxNapeSprite
 	public var cbType:CbType;
 	
 
+//	public enum {
+		
+		
+	//}
+	
 	public function new(x, y) 
 	{
 		super(x, y, null, false);
