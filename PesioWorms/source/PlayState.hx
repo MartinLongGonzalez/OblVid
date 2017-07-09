@@ -45,7 +45,6 @@ class PlayState extends FlxState
 	private var hand:PivotJoint;
 	private var arrowLeftKeyIsBeingHeld:Bool;
 	private var arrowRightKeyIsBeingHeld:Bool;
-	private var player:Player;
 	private var text1:FlxTextField;
 	private var text2:FlxTextField;
 	private var text_time:FlxTextField;
@@ -109,11 +108,11 @@ class PlayState extends FlxState
 
 		var playerPosition = new Vec2(0, 0);
 		var player1 = addPlayer(playerPosition, Player.CB_PLAYER1);
-		turn.player = player;
+		turn.player = player1;
 		var playerPosition = new Vec2(300,300);
 		addPlayer(playerPosition, Player.CB_PLAYER2);
 		// Create bomb sprite for destruction
-		player = player1;
+		//player = player1;
 		bomb = new Sprite();
 		bomb.graphics.beginFill(0xffffff, 1);
 		bomb.graphics.drawCircle(0, 0, 40);
@@ -231,7 +230,7 @@ class PlayState extends FlxState
 			{
 				player.body.velocity.x = -100;
 			}*/
-			player.handle();
+			turn.player.handle();
 			if (FlxG.keys.pressed.UP)
 			{
 				//player.body.velocity.y = -100;
@@ -242,19 +241,18 @@ class PlayState extends FlxState
 			}
 			if (FlxG.keys.pressed.ONE)
 			{
-					player.bulletSelected = BulletType.Projectile;
+					turn.player.bulletSelected = BulletType.Projectile;
 					text_weapon.text = "BAZOOKA";
 			}
 			if (FlxG.keys.pressed.TWO)
 			{
-					player.bulletSelected = BulletType.Straight;
+					turn.player.bulletSelected = BulletType.Straight;
 					text_weapon.text = "SHOTGUN";
 			}
 			
 			log(("" + (20 - turn.timer.currentCount / 100)).substr(0,2) );
 			if (20 - turn.timer.currentCount / 100 <= 0){
 				turn.finish();
-				player = turn.player;
 			}
 			//if (FlxG.keys.justPressed.SPACE)
 			if( FlxG.mouse.justPressed)
@@ -270,7 +268,7 @@ class PlayState extends FlxState
 				currentShootingTime += elapsed;
 				if (currentShootingTime > maxShootingTime){
 					turn.finish();
-					player = turn.player;
+					//player = turn.player;
 					updateWeaponText();
 					currentShootingTime = 0;
 				}
@@ -297,7 +295,7 @@ class PlayState extends FlxState
 
 	private function addPlayer(pos:Vec2, cbType):Player
 	{
-		player = new Player(pos.x, pos.y);
+		var player = new Player(pos.x, pos.y);
 		player.addCbType(cbType);
 		turn.players.insert(turn.players.length, player);
 		return player;
@@ -308,9 +306,9 @@ class PlayState extends FlxState
 
 		//player = turn.player;
 		var mousePosition = FlxG.mouse.getPosition();
-		var playerPosX = player.body.position.x;
-		var playerPosY = player.body.position.y;
-		switch (player.bulletSelected){
+		var playerPosX = turn.player.body.position.x;
+		var playerPosY = turn.player.body.position.y;
+		switch (turn.player.bulletSelected){
 			case BulletType.Projectile: { bullet = new ProjectileBullet(playerPosX + 30, playerPosY - 30); }
 			case BulletType.Straight: { bullet = new StraightBullet(playerPosX + 30, playerPosY - 30); }
 		}
@@ -394,7 +392,7 @@ class PlayState extends FlxState
 	
 	public function updateWeaponText()
 	{
-		switch(player.bulletSelected){
+		switch(turn.player.bulletSelected){
 			case BulletType.Projectile: { text_weapon.text = "BAZOOKA"; }
 			case BulletType.Straight: {  text_weapon.text = "SHOTGUN"; }
 		}
