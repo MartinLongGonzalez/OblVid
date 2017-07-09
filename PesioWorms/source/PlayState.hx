@@ -45,19 +45,21 @@ class PlayState extends FlxState
 	private var hand:PivotJoint;
 	private var arrowLeftKeyIsBeingHeld:Bool;
 	private var arrowRightKeyIsBeingHeld:Bool;
-	private var player:Player;
 	private var text1:FlxTextField;
 	private var text2:FlxTextField;
 	private var text_time:FlxTextField;
 	private var text_weapon:FlxTextField;
 	private var bullet:Bullet;
 	private var turn:Turn;
+	private var randomSeed:Int;
 
 	var currentShootingTime:Float = 0; // Estas vars son para pausear las acciones de los jugadores despues de que disparan por 5 segundos
 	var maxShootingTime:Float = 2;
-	
-	//public var CB_PROJECTILE_BULLET:CbType = new CbType();
-	//public var CB_STRAIGHT_BULLET:CbType = new CbType();
+
+	public function setRandomSeed(randomSeed:Int):Void
+	{
+		this.randomSeed = randomSeed;
+	}
 	
 	override public function create():Void
 	{
@@ -65,13 +67,13 @@ class PlayState extends FlxState
 
 		super.create();
 	}
-	
+
 	private function init():Void
 	{
 		setTextFields();
-		
+
 		FlxNapeSpace.init();
-		turn = new Turn();
+		Turn.instance();
 
 		FlxNapeSpace.space.gravity = new Vec2(0, 600);
 
@@ -80,7 +82,6 @@ class PlayState extends FlxState
 		FlxNapeSpace.drawDebug = true;
 
 		init_collisions();
-
 
 		hand = new PivotJoint(FlxNapeSpace.space.world, null, Vec2.weak(), Vec2.weak());
 		hand.active = false;
@@ -94,7 +95,7 @@ class PlayState extends FlxState
 		// Initialise terrain bitmap.
 		#if flash
 		var bit = new BitmapData(w, h, true, 0x00000000);
-		bit.perlinNoise(200, 200, 2, 0x3ed, false, true, BitmapDataChannel.ALPHA, false);
+		bit.perlinNoise(200, 200, 2, randomSeed, false, true, BitmapDataChannel.ALPHA, false);
 		#else
 		var bit = Assets.getBitmapData("assets/terrain.png");
 		#end
@@ -106,23 +107,22 @@ class PlayState extends FlxState
 		add(terrain.sprite);
 		//add players
 
-
 		var playerPosition = new Vec2(0, 0);
 		var player1 = addPlayer(playerPosition, Player.CB_PLAYER1);
-		turn.player = player;
+		Turn.instance().player = player1;
 		var playerPosition = new Vec2(300,300);
 		addPlayer(playerPosition, Player.CB_PLAYER2);
 		// Create bomb sprite for destruction
-		player = player1;
+		//player = player1;
 		bomb = new Sprite();
 		bomb.graphics.beginFill(0xffffff, 1);
 		bomb.graphics.drawCircle(0, 0, 40);
 
 	}
-	
-	private function init_collisions() : Void {
-		
-				
+
+	private function init_collisions() : Void
+	{
+
 		FlxNapeSpace.space.listeners.add(
 			new InteractionListener(
 				CbEvent.BEGIN,
@@ -130,7 +130,7 @@ class PlayState extends FlxState
 				ProjectileBullet.CB_PROJECTILE_BULLET,
 				CbType.ANY_BODY,
 				bulletHitTerrain));
-				
+
 		FlxNapeSpace.space.listeners.add(
 			new InteractionListener(
 				CbEvent.BEGIN,
@@ -138,7 +138,7 @@ class PlayState extends FlxState
 				ProjectileBullet.CB_PROJECTILE_BULLET,
 				Player.CB_PLAYER1,
 				bulletHitPlayer));
-				
+
 		FlxNapeSpace.space.listeners.add(
 			new InteractionListener(
 				CbEvent.BEGIN,
@@ -146,7 +146,7 @@ class PlayState extends FlxState
 				ProjectileBullet.CB_PROJECTILE_BULLET,
 				Player.CB_PLAYER2,
 				bulletHitPlayer));
-				
+
 		FlxNapeSpace.space.listeners.add(
 			new InteractionListener(
 				CbEvent.BEGIN,
@@ -154,7 +154,7 @@ class PlayState extends FlxState
 				StraightBullet.CB_STRAIGHT_BULLET,
 				CbType.ANY_BODY,
 				bulletHitTerrain));
-				
+
 		FlxNapeSpace.space.listeners.add(
 			new InteractionListener(
 				CbEvent.BEGIN,
@@ -162,7 +162,7 @@ class PlayState extends FlxState
 				StraightBullet.CB_STRAIGHT_BULLET,
 				Player.CB_PLAYER1,
 				bulletHitPlayer));
-				
+
 		FlxNapeSpace.space.listeners.add(
 			new InteractionListener(
 				CbEvent.BEGIN,
@@ -170,9 +170,9 @@ class PlayState extends FlxState
 				StraightBullet.CB_STRAIGHT_BULLET,
 				Player.CB_PLAYER2,
 				bulletHitPlayer));
-		
+
 	}
-	
+
 	private function setTextFields()
 	{
 		text1 = new FlxTextField(550, 10, 100, "Player 1: 100 HP", 9, true, null);
@@ -184,7 +184,7 @@ class PlayState extends FlxState
 		text_weapon = new FlxTextField(320, 20, 100, "BAZOOKA", 9, true, null);
 		add(text_weapon);
 	}
-	
+
 	function explosion(pos:Vec2, explosionRatio:Float = 2)
 	{
 		var region = AABB.fromRect(bomb.getBounds(bomb));
@@ -222,7 +222,8 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		if (turn.paused!=true){
+		if (Turn.instance().paused!=true)
+		{
 			/*if (FlxG.keys.pressed.RIGHT)     // left
 			{
 				player.body.velocity.x = 100;
@@ -231,7 +232,7 @@ class PlayState extends FlxState
 			{
 				player.body.velocity.x = -100;
 			}*/
-			player.handle();
+			Turn.instance().player.handle();
 			if (FlxG.keys.pressed.UP)
 			{
 				//player.body.velocity.y = -100;
@@ -242,46 +243,49 @@ class PlayState extends FlxState
 			}
 			if (FlxG.keys.pressed.ONE)
 			{
-					player.bulletSelected = BulletType.Projectile;
-					text_weapon.text = "BAZOOKA";
+				Turn.instance().player.bulletSelected = BulletType.Projectile;
+				text_weapon.text = "BAZOOKA";
 			}
 			if (FlxG.keys.pressed.TWO)
 			{
-					player.bulletSelected = BulletType.Straight;
-					text_weapon.text = "SHOTGUN";
+				Turn.instance().player.bulletSelected = BulletType.Straight;
+				text_weapon.text = "SHOTGUN";
 			}
-			
-			log(("" + (20 - turn.timer.currentCount / 100)).substr(0,2) );
-			if (20 - turn.timer.currentCount / 100 <= 0){
-				turn.finish();
-				player = turn.player;
+			var timeElapsed = 20 - Turn.instance().timer.currentCount / 100;
+			if ( timeElapsed < 10)
+			{
+				log( ("" + timeElapsed).substr(0, 1) ) ;
+			}
+			else
+			{
+				log(("" + timeElapsed).substr(0, 2) ) ;
+			}
+			if (timeElapsed <= 0)
+			{
+				Turn.instance().finish();
 			}
 			//if (FlxG.keys.justPressed.SPACE)
-			if( FlxG.mouse.justPressed)
+			if ( FlxG.mouse.justPressed )
 			{
-				shootBullet();   
-				turn.paused = true;
+				shootBullet();
+				Turn.instance().paused = true;
 			}
-			if (FlxG.keys.justPressed.SPACE){
-				//shootBullet2();
-				// turn.paused = true;
+
+		}
+		else{
+			currentShootingTime += elapsed;
+			if (currentShootingTime > maxShootingTime)
+			{
+				Turn.instance().finish();
+				//player = Turn.instance().player;
+				updateWeaponText();
+				currentShootingTime = 0;
 			}
-		}else{
-				currentShootingTime += elapsed;
-				if (currentShootingTime > maxShootingTime){
-					turn.finish();
-					player = turn.player;
-					updateWeaponText();
-					currentShootingTime = 0;
-				}
-				 
-				
+
 		}
 		super.update(elapsed);
 	}
 
-	
-	
 	function createObject(pos:Vec2)
 	{
 		var sprite = new FlxNapeSprite(pos.x, pos.y, null, false);
@@ -297,70 +301,69 @@ class PlayState extends FlxState
 
 	private function addPlayer(pos:Vec2, cbType):Player
 	{
-		player = new Player(pos.x, pos.y);
+		var player = new Player(pos.x, pos.y);
 		player.addCbType(cbType);
-		turn.players.insert(turn.players.length, player);
+		Turn.instance().players.insert(Turn.instance().players.length, player);
 		return player;
 	}
 
 	private function shootBullet()
 	{
-
-		//player = turn.player;
 		var mousePosition = FlxG.mouse.getPosition();
-		var playerPosX = player.body.position.x;
-		var playerPosY = player.body.position.y;
-		switch (player.bulletSelected){
-			case BulletType.Projectile: { bullet = new ProjectileBullet(playerPosX + 30, playerPosY - 30); }
-			case BulletType.Straight: { bullet = new StraightBullet(playerPosX + 30, playerPosY - 30); }
+		var playerPosX = Turn.instance().player.body.position.x;
+		var playerPosY = Turn.instance().player.body.position.y;
+		switch (Turn.instance().player.bulletSelected)
+		{
+			case BulletType.Projectile: { bullet = new ProjectileBullet(playerPosX, playerPosY - 30); }
+			case BulletType.Straight: { bullet = new StraightBullet(playerPosX, playerPosY - 30); }
 		}
-		//bullet = new ProjectileBullet(playerPosX + 30, playerPosY + 30);
 		add(bullet);
-		//bullet.makeGraphic(20, 20, FlxColor.WHITE);
-		//bullet.body.position.x = playerPosX;
-		//bullet.body.position.y = playerPosY-30;
 		var angle = FlxG.mouse.getPosition()
-			.angleBetween(FlxPoint.get(bullet.body.position.x, bullet.body.position.y));
+					.angleBetween(FlxPoint.get(bullet.body.position.x, bullet.body.position.y));
 		angle += 90;
 		bullet.body.velocity.setxy(
 			bullet.speed * Math.cos(angle * 3.14 / 180),
 			bullet.speed * Math.sin(angle * 3.14 / 180));
-		
+
 		bullet.body.angularVel = 30;
-
 	}
-
 
 	public function bulletHitTerrain(callback:InteractionCallback)
 	{
 		var interactorCbTypes2 = callback.int2.cbTypes;
-		interactorCbTypes2.foreach(function(obj){
-			if (bullet != null){
-			//if (bullet != null && bullet.had_contact == false){
-				if (obj == Player.CB_PLAYER1 || obj == Player.CB_PLAYER2 ){
-					
-				}else{
+		interactorCbTypes2.foreach(function(obj)
+		{
+			if (bullet != null)
+			{
+				//if (bullet != null && bullet.had_contact == false){
+				if (obj == Player.CB_PLAYER1 || obj == Player.CB_PLAYER2 )
+				{
+
+				}
+				else
+				{
 					explosion(bullet.body.position, bullet.explotionRatio);
 					bullet.had_contact = true;
 					bullet.destroy();
-					
-				}			
+				}
 			}
 		});
 		//if (bullet != null && bullet.had_contact == false){
-	
+
 	}
-	
+
 	public function bulletHitPlayer(callback:InteractionCallback)
 	{
 		//if(bullet!=null && bullet.had_contact==false){
-		if(bullet!=null){
+		if (bullet!=null)
+		{
 			var bullet_dmg = bullet.damage;
 			var interactorCbTypes2 = callback.int2.cbTypes;
-			interactorCbTypes2.foreach(function(obj){
+			interactorCbTypes2.foreach(function(obj)
+			{
 				if (obj == Player.CB_PLAYER1)
 				{
-					for (player in turn.players)
+					for (player in Turn.instance().players)
 					{
 						if (player.cbType == obj)
 						{
@@ -368,11 +371,11 @@ class PlayState extends FlxState
 							text1.text = "Player 1: " + player.healthPoints + " HP";
 						}
 					}
-					
+
 				}
 				if (obj == Player.CB_PLAYER2)
 				{
-					for (player in turn.players)
+					for (player in Turn.instance().players)
 					{
 						if (player.cbType == obj)
 						{
@@ -382,8 +385,8 @@ class PlayState extends FlxState
 					}
 				}
 			});
-		bullet.had_contact = true;
-		bullet.destroy();
+			bullet.had_contact = true;
+			bullet.destroy();
 		}
 	}
 
@@ -391,10 +394,11 @@ class PlayState extends FlxState
 	{
 		text_time.text = string;
 	}
-	
+
 	public function updateWeaponText()
 	{
-		switch(player.bulletSelected){
+		switch (Turn.instance().player.bulletSelected)
+		{
 			case BulletType.Projectile: { text_weapon.text = "BAZOOKA"; }
 			case BulletType.Straight: {  text_weapon.text = "SHOTGUN"; }
 		}
