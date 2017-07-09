@@ -12,7 +12,7 @@
 -cp C:/HaxeToolkit/haxe/lib/poly2trihx/0,1,4
 -D poly2trihx=0.1.4
 -cp source
--cp C:\HaxeToolkit\haxe\lib\openfl/3,6,1/extern
+-cp C:\HaxeToolkit\haxe\lib/openfl/3,6,1/extern
 -D native-trace
 -D HXCPP_QUIET
 -D openfl-next
@@ -20,7 +20,6 @@
 -D FLX_NO_MOUSE_ADVANCED
 -D flash-use-stage
 -D no-compilation
--D NAPE_RELEASE_BUILD
 -D openfl-flash
 -D fdb
 -D web

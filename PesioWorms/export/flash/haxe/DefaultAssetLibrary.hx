@@ -55,6 +55,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_nokiafc22_ttf);
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_monsterrat_ttf);
 		
@@ -64,6 +65,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		#if flash
 		
+		className.set ("assets/CustomPreload/logo.jpg", __ASSET__assets_custompreload_logo_jpg);
+		type.set ("assets/CustomPreload/logo.jpg", AssetType.IMAGE);
 		className.set ("assets/Patagonia30.jpg", __ASSET__assets_patagonia30_jpg);
 		type.set ("assets/Patagonia30.jpg", AssetType.IMAGE);
 		className.set ("assets/terrain.png", __ASSET__assets_terrain_png);
@@ -85,6 +88,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#elseif html5
 		
 		var id;
+		id = "assets/CustomPreload/logo.jpg";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
 		id = "assets/Patagonia30.jpg";
 		path.set (id, id);
 		
@@ -134,6 +141,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#if (windows || mac || linux)
 		
 		var useManifest = false;
+		
+		className.set ("assets/CustomPreload/logo.jpg", __ASSET__assets_custompreload_logo_jpg);
+		type.set ("assets/CustomPreload/logo.jpg", AssetType.IMAGE);
 		
 		className.set ("assets/Patagonia30.jpg", __ASSET__assets_patagonia30_jpg);
 		type.set ("assets/Patagonia30.jpg", AssetType.IMAGE);
@@ -803,6 +813,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 #if !display
 #if flash
 
+@:keep @:bind #if display private #end class __ASSET__assets_custompreload_logo_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_patagonia30_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_terrain_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__flixel_sounds_beep_mp3 extends flash.media.Sound { }
@@ -814,6 +825,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 #elseif html5
+
 
 
 
@@ -832,6 +844,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 #if (windows || mac || linux || cpp)
 
 
+@:image("assets/CustomPreload/logo.jpg") #if display private #end class __ASSET__assets_custompreload_logo_jpg extends lime.graphics.Image {}
 @:image("assets/Patagonia30.jpg") #if display private #end class __ASSET__assets_patagonia30_jpg extends lime.graphics.Image {}
 @:image("assets/terrain.png") #if display private #end class __ASSET__assets_terrain_png extends lime.graphics.Image {}
 @:file("C:/HaxeToolkit/haxe/lib/flixel/4,2,1/assets/sounds/beep.mp3") #if display private #end class __ASSET__flixel_sounds_beep_mp3 extends lime.utils.Bytes {}
