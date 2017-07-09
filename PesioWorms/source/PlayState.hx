@@ -52,7 +52,8 @@ class PlayState extends FlxState
 	private var bullet:Bullet;
 	private var turn:Turn;
 	private var randomSeed:Int;
-
+	private var playersInMap:Int=0;
+	
 	var currentShootingTime:Float = 0; // Estas vars son para pausear las acciones de los jugadores despues de que disparan por 5 segundos
 	var maxShootingTime:Float = 2;
 
@@ -60,7 +61,7 @@ class PlayState extends FlxState
 	{
 		this.randomSeed = randomSeed;
 	}
-	
+
 	override public function create():Void
 	{
 		init();
@@ -105,13 +106,7 @@ class PlayState extends FlxState
 		terrain.invalidate(new AABB(0, 0, w, h), this);
 		terrain.sprite.alpha = 0;
 		add(terrain.sprite);
-		//add players
-
-		var playerPosition = new Vec2(0, 0);
-		var player1 = addPlayer(playerPosition, Player.CB_PLAYER1);
-		Turn.instance().player = player1;
-		var playerPosition = new Vec2(300,300);
-		addPlayer(playerPosition, Player.CB_PLAYER2);
+		
 		// Create bomb sprite for destruction
 		//player = player1;
 		bomb = new Sprite();
@@ -222,7 +217,34 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		if (Turn.instance().paused!=true)
+		if (FlxG.mouse.justPressed)
+		{
+			var mp = Vec2.get(FlxG.mouse.x, FlxG.mouse.y);
+
+			bodyList = FlxNapeSpace.space.bodiesUnderPoint(mp, null, bodyList);
+
+			if (bodyList.empty() && playersInMap<2)
+			{
+				if (playersInMap == 0)
+				{
+					var player1 = addPlayer(mp, Player.CB_PLAYER1);
+					Turn.instance().player = player1;
+				}
+				else
+				{
+					addPlayer(mp, Player.CB_PLAYER2);
+				}
+				
+				playersInMap++;
+			}
+			
+			// recycle nodes.
+			bodyList.clear();
+
+			mp.dispose();
+		}
+
+		if (Turn.instance().paused != true && playersInMap>=2 )
 		{
 			/*if (FlxG.keys.pressed.RIGHT)     // left
 			{
@@ -272,7 +294,7 @@ class PlayState extends FlxState
 			}
 
 		}
-		else{
+		else if(playersInMap >=2){
 			currentShootingTime += elapsed;
 			if (currentShootingTime > maxShootingTime)
 			{
