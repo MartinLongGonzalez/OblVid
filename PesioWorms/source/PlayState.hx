@@ -52,12 +52,19 @@ class PlayState extends FlxState
 	private var text_weapon:FlxTextField;
 	private var bullet:Bullet;
 	private var turn:Turn;
+	private var randomSeed:Int;
+	
 
 	var currentShootingTime:Float = 0; // Estas vars son para pausear las acciones de los jugadores despues de que disparan por 5 segundos
 	var maxShootingTime:Float = 2;
 	
 	//public var CB_PROJECTILE_BULLET:CbType = new CbType();
 	//public var CB_STRAIGHT_BULLET:CbType = new CbType();
+	
+	public function setRandomSeed(randomSeed:Int):Void
+	{
+		this.randomSeed = randomSeed;
+	}
 	
 	override public function create():Void
 	{
@@ -94,7 +101,7 @@ class PlayState extends FlxState
 		// Initialise terrain bitmap.
 		#if flash
 		var bit = new BitmapData(w, h, true, 0x00000000);
-		bit.perlinNoise(200, 200, 2, 0x3ed, false, true, BitmapDataChannel.ALPHA, false);
+		bit.perlinNoise(200, 200, 2, randomSeed, false, true, BitmapDataChannel.ALPHA, false);
 		#else
 		var bit = Assets.getBitmapData("assets/terrain.png");
 		#end

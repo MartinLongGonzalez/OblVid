@@ -20,6 +20,7 @@
 -D FLX_NO_MOUSE_ADVANCED
 -D flash-use-stage
 -D no-compilation
+-D NAPE_RELEASE_BUILD
 -D openfl-flash
 -D fdb
 -D web
