@@ -21,6 +21,7 @@ import Bullet.BulletType;
 	public var healthPoints:Int = 100;
 	public var bulletSelected:BulletType; 
 	public var cbType:CbType;
+	public var state:PlayerState;
 	
 
 
@@ -31,12 +32,16 @@ import Bullet.BulletType;
 		bulletSelected = BulletType.Projectile;
 		createCircularBody(20);
 		body.space = FlxNapeSpace.space;
+		state = new StillState(this);
 	}
 	
 	public function addCbType(cbType)
 	{
 		this.cbType = cbType;
 		this.body.cbTypes.add(cbType);
+	}
+	public function handle(){
+		state.update();
 	}
 	
 }

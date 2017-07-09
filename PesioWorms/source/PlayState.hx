@@ -223,14 +223,15 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float):Void
 	{
 		if (turn.paused!=true){
-			if (FlxG.keys.pressed.RIGHT)     // left
+			/*if (FlxG.keys.pressed.RIGHT)     // left
 			{
 				player.body.velocity.x = 100;
 			}
 			if (FlxG.keys.pressed.LEFT)
 			{
 				player.body.velocity.x = -100;
-			}
+			}*/
+			player.handle();
 			if (FlxG.keys.pressed.UP)
 			{
 				//player.body.velocity.y = -100;
