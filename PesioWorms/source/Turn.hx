@@ -9,13 +9,22 @@ class Turn
 {
 
 	public var player:Player;
-	public var nextPlayer:Player;
 	public var timer:Timer;
 	public var position:Int;
 	public var players:Array<Player>;
 	public var paused:Bool;
+	private static var turn:Turn;
 	
-	public function new() 
+	
+	public static function instance():Turn{
+		if (turn == null){
+			turn = new Turn();
+		}
+		return turn;
+	}
+	
+	
+	private function new() 
 	{
 		players = new Array<Player>();
 		timer = createTimer();

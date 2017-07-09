@@ -18,7 +18,7 @@ class ApplicationMain {
 		var app = new openfl.display.Application ();
 		app.create (config);
 		
-		var display = new flixel.system.FlxPreloader ();
+		var display = new CustomPreloader ();
 		
 		preloader = new openfl.display.Preloader (display);
 		app.setPreloader (preloader);
@@ -28,6 +28,10 @@ class ApplicationMain {
 		#if (js && html5)
 		var urls = [];
 		var types = [];
+		
+		
+		urls.push ("assets/CustomPreload/logo.jpg");
+		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
 		urls.push ("assets/Patagonia30.jpg");
@@ -123,7 +127,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "332",
+			build: "339",
 			company: "HaxeFlixel",
 			file: "PesioWorms",
 			fps: 60,

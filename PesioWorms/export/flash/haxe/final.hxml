@@ -12,7 +12,7 @@
 -cp C:/HaxeToolkit/haxe/lib/poly2trihx/0,1,4
 -D poly2trihx=0.1.4
 -cp source
--cp C:\HaxeToolkit\haxe\lib/openfl/3,6,1/extern
+-cp C:\HaxeToolkit\haxe\lib\openfl/3,6,1/extern
 -D native-trace
 -D HXCPP_QUIET
 -D openfl-next

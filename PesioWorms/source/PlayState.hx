@@ -50,7 +50,7 @@ class PlayState extends FlxState
 	private var text_time:FlxTextField;
 	private var text_weapon:FlxTextField;
 	private var bullet:Bullet;
-	private var turn:Turn;
+
 
 	var currentShootingTime:Float = 0; // Estas vars son para pausear las acciones de los jugadores despues de que disparan por 5 segundos
 	var maxShootingTime:Float = 2;
@@ -70,7 +70,7 @@ class PlayState extends FlxState
 		setTextFields();
 		
 		FlxNapeSpace.init();
-		turn = new Turn();
+		Turn.instance();
 
 		FlxNapeSpace.space.gravity = new Vec2(0, 600);
 
@@ -108,7 +108,7 @@ class PlayState extends FlxState
 
 		var playerPosition = new Vec2(0, 0);
 		var player1 = addPlayer(playerPosition, Player.CB_PLAYER1);
-		turn.player = player1;
+		Turn.instance().player = player1;
 		var playerPosition = new Vec2(300,300);
 		addPlayer(playerPosition, Player.CB_PLAYER2);
 		// Create bomb sprite for destruction
@@ -221,7 +221,7 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		if (turn.paused!=true){
+		if (Turn.instance().paused!=true){
 			/*if (FlxG.keys.pressed.RIGHT)     // left
 			{
 				player.body.velocity.x = 100;
@@ -230,7 +230,7 @@ class PlayState extends FlxState
 			{
 				player.body.velocity.x = -100;
 			}*/
-			turn.player.handle();
+			Turn.instance().player.handle();
 			if (FlxG.keys.pressed.UP)
 			{
 				//player.body.velocity.y = -100;
@@ -241,34 +241,34 @@ class PlayState extends FlxState
 			}
 			if (FlxG.keys.pressed.ONE)
 			{
-					turn.player.bulletSelected = BulletType.Projectile;
+					Turn.instance().player.bulletSelected = BulletType.Projectile;
 					text_weapon.text = "BAZOOKA";
 			}
 			if (FlxG.keys.pressed.TWO)
 			{
-					turn.player.bulletSelected = BulletType.Straight;
+					Turn.instance().player.bulletSelected = BulletType.Straight;
 					text_weapon.text = "SHOTGUN";
 			}
 			
-			log(("" + (20 - turn.timer.currentCount / 100)).substr(0,2) );
-			if (20 - turn.timer.currentCount / 100 <= 0){
-				turn.finish();
+			log(("" + (20 - Turn.instance().timer.currentCount / 100)).substr(0,2) );
+			if (20 - Turn.instance().timer.currentCount / 100 <= 0){
+				Turn.instance().finish();
 			}
 			//if (FlxG.keys.justPressed.SPACE)
 			if( FlxG.mouse.justPressed)
 			{
 				shootBullet();   
-				turn.paused = true;
+				Turn.instance().paused = true;
 			}
 			if (FlxG.keys.justPressed.SPACE){
 				//shootBullet2();
-				// turn.paused = true;
+				// Turn.instance().paused = true;
 			}
 		}else{
 				currentShootingTime += elapsed;
 				if (currentShootingTime > maxShootingTime){
-					turn.finish();
-					//player = turn.player;
+					Turn.instance().finish();
+					//player = Turn.instance().player;
 					updateWeaponText();
 					currentShootingTime = 0;
 				}
@@ -297,18 +297,18 @@ class PlayState extends FlxState
 	{
 		var player = new Player(pos.x, pos.y);
 		player.addCbType(cbType);
-		turn.players.insert(turn.players.length, player);
+		Turn.instance().players.insert(Turn.instance().players.length, player);
 		return player;
 	}
 
 	private function shootBullet()
 	{
 
-		//player = turn.player;
+		//player = Turn.instance().player;
 		var mousePosition = FlxG.mouse.getPosition();
-		var playerPosX = turn.player.body.position.x;
-		var playerPosY = turn.player.body.position.y;
-		switch (turn.player.bulletSelected){
+		var playerPosX = Turn.instance().player.body.position.x;
+		var playerPosY = Turn.instance().player.body.position.y;
+		switch (Turn.instance().player.bulletSelected){
 			case BulletType.Projectile: { bullet = new ProjectileBullet(playerPosX + 30, playerPosY - 30); }
 			case BulletType.Straight: { bullet = new StraightBullet(playerPosX + 30, playerPosY - 30); }
 		}
@@ -358,7 +358,7 @@ class PlayState extends FlxState
 			interactorCbTypes2.foreach(function(obj){
 				if (obj == Player.CB_PLAYER1)
 				{
-					for (player in turn.players)
+					for (player in Turn.instance().players)
 					{
 						if (player.cbType == obj)
 						{
@@ -370,7 +370,7 @@ class PlayState extends FlxState
 				}
 				if (obj == Player.CB_PLAYER2)
 				{
-					for (player in turn.players)
+					for (player in Turn.instance().players)
 					{
 						if (player.cbType == obj)
 						{
@@ -392,7 +392,7 @@ class PlayState extends FlxState
 	
 	public function updateWeaponText()
 	{
-		switch(turn.player.bulletSelected){
+		switch(Turn.instance().player.bulletSelected){
 			case BulletType.Projectile: { text_weapon.text = "BAZOOKA"; }
 			case BulletType.Straight: {  text_weapon.text = "SHOTGUN"; }
 		}
