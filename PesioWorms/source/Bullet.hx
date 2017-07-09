@@ -17,8 +17,10 @@ class Bullet extends FlxNapeSprite
 	public var speed:Float;
 	public var explotionRatio:Float;
 	public var damage:Int;
+	public var had_contact:Bool;
 	 	
 		public function new(x, y) {
 			super(x, y, null, false);
+			had_contact = false;
 		}
 }

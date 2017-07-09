@@ -102,8 +102,8 @@ class PlayState extends FlxState
 		// Create initial terrain state, invalidating the whole screen.
 		terrain = new Terrain(bit, 30, 5);
 		terrain.invalidate(new AABB(0, 0, w, h), this);
-		add(terrain.sprite);
 		terrain.sprite.alpha = 0;
+		add(terrain.sprite);
 		//add players
 
 
@@ -181,7 +181,7 @@ class PlayState extends FlxState
 		add(text2);
 		text_time = new FlxTextField(320, 10, 100, "20", 9, true, null);
 		add(text_time);
-		text_weapon = new FlxTextField(320, 20, 100, "20", 9, true, null);
+		text_weapon = new FlxTextField(320, 20, 100, "BAZOOKA", 9, true, null);
 		add(text_weapon);
 	}
 	
@@ -251,9 +251,10 @@ class PlayState extends FlxState
 			}
 			
 			log(("" + (20 - turn.timer.currentCount / 100)).substr(0,2) );
-			//if (20 - turn.timer.currentCount / 100 <= 0)
-				//turn.finish();
-
+			if (20 - turn.timer.currentCount / 100 <= 0){
+				turn.finish();
+				player = turn.player;
+			}
 			//if (FlxG.keys.justPressed.SPACE)
 			if( FlxG.mouse.justPressed)
 			{
@@ -331,41 +332,58 @@ class PlayState extends FlxState
 
 	public function bulletHitTerrain(callback:InteractionCallback)
 	{
-		explosion(bullet.body.position, bullet.explotionRatio);
-		bullet.destroy();
-}
+		var interactorCbTypes2 = callback.int2.cbTypes;
+		interactorCbTypes2.foreach(function(obj){
+			if (bullet != null){
+			//if (bullet != null && bullet.had_contact == false){
+				if (obj == Player.CB_PLAYER1 || obj == Player.CB_PLAYER2 ){
+					
+				}else{
+					explosion(bullet.body.position, bullet.explotionRatio);
+					bullet.had_contact = true;
+					bullet.destroy();
+					
+				}			
+			}
+		});
+		//if (bullet != null && bullet.had_contact == false){
+	
+	}
 	
 	public function bulletHitPlayer(callback:InteractionCallback)
 	{
-		var bullet_dmg = bullet.damage;
-		var interactorCbTypes2 = callback.int2.cbTypes;
-		interactorCbTypes2.foreach(function(obj){
-			if (obj == Player.CB_PLAYER1)
-			{
-				for (player in turn.players)
+		//if(bullet!=null && bullet.had_contact==false){
+		if(bullet!=null){
+			var bullet_dmg = bullet.damage;
+			var interactorCbTypes2 = callback.int2.cbTypes;
+			interactorCbTypes2.foreach(function(obj){
+				if (obj == Player.CB_PLAYER1)
 				{
-					if (player.cbType == obj)
+					for (player in turn.players)
 					{
-						player.healthPoints -= bullet_dmg;
-						text1.text = "Player 1: " + player.healthPoints + " HP";
+						if (player.cbType == obj)
+						{
+							player.healthPoints -= bullet_dmg;
+							text1.text = "Player 1: " + player.healthPoints + " HP";
+						}
+					}
+					
+				}
+				if (obj == Player.CB_PLAYER2)
+				{
+					for (player in turn.players)
+					{
+						if (player.cbType == obj)
+						{
+							player.healthPoints -= bullet_dmg;
+							text2.text = "Player 2: " + player.healthPoints + " HP";
+						}
 					}
 				}
-				
-			}
-			if (obj == Player.CB_PLAYER2)
-			{
-				for (player in turn.players)
-				{
-					if (player.cbType == obj)
-					{
-						player.healthPoints -= bullet_dmg;
-						text2.text = "Player 2: " + player.healthPoints + " HP";
-					}
-				}
-			}
-		});
+			});
+		bullet.had_contact = true;
 		bullet.destroy();
-		
+		}
 	}
 
 	public function log(string)

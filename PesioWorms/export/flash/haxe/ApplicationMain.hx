@@ -123,7 +123,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "302",
+			build: "316",
 			company: "HaxeFlixel",
 			file: "PesioWorms",
 			fps: 60,
