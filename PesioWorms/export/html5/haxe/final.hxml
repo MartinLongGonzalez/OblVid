@@ -20,7 +20,6 @@
 -D lime-opengl
 -D openfl-html5
 -D canvas
--D NAPE_RELEASE_BUILD
 -D lime-html5
 -D fdb
 -D html5
