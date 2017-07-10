@@ -36,7 +36,8 @@ import openfl.display.BitmapDataChannel;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.text.TextFormatAlign;
-import Bullet.BulletType;
+import Bullet;
+//import Bullet.BulletType;
 class PlayState extends FlxState
 {
 	private var bodyList:BodyList = null;
@@ -53,9 +54,9 @@ class PlayState extends FlxState
 	private var turn:Turn;
 	private var randomSeed:Int;
 	private var playersInMap:Int=0;
-	
+
 	var currentShootingTime:Float = 0; // Estas vars son para pausear las acciones de los jugadores despues de que disparan por 5 segundos
-	var maxShootingTime:Float = 2;
+	var maxShootingTime:Float = 1;
 
 	public function setRandomSeed(randomSeed:Int):Void
 	{
@@ -106,7 +107,7 @@ class PlayState extends FlxState
 		terrain.invalidate(new AABB(0, 0, w, h), this);
 		terrain.sprite.alpha = 0;
 		add(terrain.sprite);
-		
+
 		// Create bomb sprite for destruction
 		//player = player1;
 		bomb = new Sprite();
@@ -217,13 +218,11 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		if (FlxG.mouse.justPressed)
+		if (playersInMap<2 && FlxG.mouse.justPressed )
 		{
 			var mp = Vec2.get(FlxG.mouse.x, FlxG.mouse.y);
-
 			bodyList = FlxNapeSpace.space.bodiesUnderPoint(mp, null, bodyList);
-
-			if (bodyList.empty() && playersInMap<2)
+			if (bodyList.empty())
 			{
 				if (playersInMap == 0)
 				{
@@ -233,14 +232,11 @@ class PlayState extends FlxState
 				else
 				{
 					addPlayer(mp, Player.CB_PLAYER2);
+					//Turn.instance().paused = false;
 				}
-				
-				playersInMap++;
 			}
-			
 			// recycle nodes.
 			bodyList.clear();
-
 			mp.dispose();
 		}
 
@@ -273,28 +269,17 @@ class PlayState extends FlxState
 				Turn.instance().player.bulletSelected = BulletType.Straight;
 				text_weapon.text = "SHOTGUN";
 			}
-			var timeElapsed = 20 - Turn.instance().timer.currentCount / 100;
-			if ( timeElapsed < 10)
-			{
-				log( ("" + timeElapsed).substr(0, 1) ) ;
-			}
-			else
-			{
-				log(("" + timeElapsed).substr(0, 2) ) ;
-			}
-			if (timeElapsed <= 0)
-			{
-				Turn.instance().finish();
-			}
-			//if (FlxG.keys.justPressed.SPACE)
+
 			if ( FlxG.mouse.justPressed )
 			{
 				shootBullet();
 				Turn.instance().paused = true;
 			}
+			updateTimer();
 
 		}
-		else if(playersInMap >=2){
+		else if (playersInMap >=2)
+		{
 			currentShootingTime += elapsed;
 			if (currentShootingTime > maxShootingTime)
 			{
@@ -307,7 +292,23 @@ class PlayState extends FlxState
 		}
 		super.update(elapsed);
 	}
+	private function updateTimer()
+	{
+		var timeElapsed = 20 - Turn.instance().timer.currentCount / 100;
+		if ( timeElapsed < 10)
+		{
+			log( ("" + timeElapsed).substr(0, 1) ) ;
+		}
+		else
+		{
+			log(("" + timeElapsed).substr(0, 2) ) ;
+		}
+		if (timeElapsed <= 0)
+		{
+			Turn.instance().finish();
+		}
 
+	}
 	function createObject(pos:Vec2)
 	{
 		var sprite = new FlxNapeSprite(pos.x, pos.y, null, false);
@@ -326,6 +327,8 @@ class PlayState extends FlxState
 		var player = new Player(pos.x, pos.y);
 		player.addCbType(cbType);
 		Turn.instance().players.insert(Turn.instance().players.length, player);
+		player.state = new WaitingForTurnState(player);
+		playersInMap++;
 		return player;
 	}
 
@@ -365,12 +368,11 @@ class PlayState extends FlxState
 				else
 				{
 					explosion(bullet.body.position, bullet.explotionRatio);
-					bullet.had_contact = true;
 					bullet.destroy();
 				}
 			}
 		});
-		//if (bullet != null && bullet.had_contact == false){
+
 
 	}
 
@@ -407,7 +409,6 @@ class PlayState extends FlxState
 					}
 				}
 			});
-			bullet.had_contact = true;
 			bullet.destroy();
 		}
 	}

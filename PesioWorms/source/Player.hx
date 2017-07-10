@@ -1,4 +1,4 @@
-package;
+package ;
 import flash.geom.Point;
 import flixel.addons.nape.FlxNapeSpace;
 import flixel.addons.nape.FlxNapeSprite;
@@ -23,16 +23,12 @@ import Bullet.BulletType;
 	public var cbType:CbType;
 	public var state:PlayerState;
 	
-
-
-	
-	public function new(x, y) 
+public function new(x, y) 
 	{
 		super(x, y, null, false);
 		bulletSelected = BulletType.Projectile;
 		createCircularBody(20);
 		body.space = FlxNapeSpace.space;
-		state = new StillState(this);
 	}
 	
 	public function addCbType(cbType)

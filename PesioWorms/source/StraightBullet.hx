@@ -1,4 +1,4 @@
-package;
+package ;
 import flixel.addons.nape.FlxNapeSpace;
 import flixel.addons.nape.FlxNapeSprite;
 import nape.callbacks.CbType;

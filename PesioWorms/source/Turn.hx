@@ -29,7 +29,7 @@ class Turn
 		players = new Array<Player>();
 		timer = createTimer();
 		position = 0;
-		paused = false;
+		paused = true; // Mientras se eljien luagres para los jugadores
 	}
 	
 	public function createTimer(){
@@ -39,11 +39,13 @@ class Turn
 		return timer;
 	}
 	public function finish(){
-		
+		player.state = new WaitingForTurnState(player);
 		position = (position + 1) % players.length;
 		player = players[position];
+		player.state = new StillState(player);
 		restartTimer();
 		paused = false;
+	
 	}
 	
 	public function restartTimer(){

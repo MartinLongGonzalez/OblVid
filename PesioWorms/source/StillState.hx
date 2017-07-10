@@ -21,13 +21,12 @@ class StillState implements PlayerState
 			else if (FlxG.keys.pressed.LEFT)     // left
 			{
 				player.state = new WalkingLeftState(player);
-				//player.state.update();
+
 			}
 			else{
 				player.body.velocity.x = 0;
 				player.body.velocity.y = 0;
-				
-				//player.body.position.x = xPos;
+
 			}
 			
 	}
