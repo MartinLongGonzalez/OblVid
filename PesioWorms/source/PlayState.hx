@@ -54,7 +54,7 @@ class PlayState extends FlxState
 	private var turn:Turn;
 	private var randomSeed:Int;
 	private var playersInMap:Int=0;
-
+	private var turnActive = true;
 	var currentShootingTime:Float = 0; // Estas vars son para pausear las acciones de los jugadores despues de que disparan por 5 segundos
 	var maxShootingTime:Float = 1;
 
@@ -227,7 +227,9 @@ class PlayState extends FlxState
 				if (playersInMap == 0)
 				{
 					var player1 = addPlayer(mp, Player.CB_PLAYER1);
+					player1.state = new StillState(player1);
 					Turn.instance().player = player1;
+
 				}
 				else
 				{
@@ -242,15 +244,9 @@ class PlayState extends FlxState
 
 		if (Turn.instance().paused != true && playersInMap>=2 )
 		{
-			/*if (FlxG.keys.pressed.RIGHT)     // left
-			{
-				player.body.velocity.x = 100;
-			}
-			if (FlxG.keys.pressed.LEFT)
-			{
-				player.body.velocity.x = -100;
-			}*/
-			Turn.instance().player.handle();
+			for (player in Turn.instance().players) // se debería lamar solo creo
+				player.update(elapsed);
+			//Turn.instance().player.update(elapsed);
 			if (FlxG.keys.pressed.UP)
 			{
 				//player.body.velocity.y = -100;
@@ -280,10 +276,16 @@ class PlayState extends FlxState
 		}
 		else if (playersInMap >=2)
 		{
+			if (this.turnActive)
+			{
+				Turn.instance().player.state = new WaitingForTurnState(Turn.instance().player);
+				this.turnActive = false;
+			}
 			currentShootingTime += elapsed;
 			if (currentShootingTime > maxShootingTime)
 			{
 				Turn.instance().finish();
+				this.turnActive = true;
 				//player = Turn.instance().player;
 				updateWeaponText();
 				currentShootingTime = 0;
@@ -372,7 +374,6 @@ class PlayState extends FlxState
 				}
 			}
 		});
-
 
 	}
 

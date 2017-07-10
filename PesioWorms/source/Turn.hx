@@ -39,7 +39,7 @@ class Turn
 		return timer;
 	}
 	public function finish(){
-		player.state = new WaitingForTurnState(player);
+		
 		position = (position + 1) % players.length;
 		player = players[position];
 		player.state = new StillState(player);

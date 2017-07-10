@@ -10,34 +10,37 @@ import Bullet.BulletType;
  * @author Martin Long Gonzalez
  */
 
-
- 
- class Player extends FlxNapeSprite
+class Player extends FlxNapeSprite
 {
 	public static var CB_PLAYER1:CbType = new CbType();
 	public static var CB_PLAYER2:CbType = new CbType();
-	
+
 	public var movement:Point;
 	public var healthPoints:Int = 100;
-	public var bulletSelected:BulletType; 
+	public var bulletSelected:BulletType;
 	public var cbType:CbType;
 	public var state:PlayerState;
-	
-public function new(x, y) 
+
+	public function new(x, y)
 	{
 		super(x, y, null, false);
 		bulletSelected = BulletType.Projectile;
 		createCircularBody(20);
 		body.space = FlxNapeSpace.space;
 	}
-	
+
 	public function addCbType(cbType)
 	{
 		this.cbType = cbType;
 		this.body.cbTypes.add(cbType);
 	}
-	public function handle(){
+
+	override public function update(elapsed:Float):Void
+	{
 		state.update();
+		super.update(elapsed);
+
 	}
-	
+
 }
+
