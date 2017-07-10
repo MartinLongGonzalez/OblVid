@@ -15,21 +15,25 @@ class JumpState implements PlayerState
 	private var player:Player;
 	
 	public function update() : Void {
-		if (player.body.velocity.y > 0)
+		/*if (player.body.velocity.y > 0)
 			jumping = true;
 		else
 			jumping = false;
-			
-			if (FlxG.keys.justPressed.UP)     // left
+			*/
+			if (FlxG.keys.pressed.UP)     // left
 			{
-				if(!jumping){
-					player.body.velocity.y += 500;
-				}
+				//if(!jumping){
+					player.body.velocity.y = -1000;
+				//}
 			}
-			if (FlxG.keys.justPressed.RIGHT)
+			if (FlxG.keys.pressed.RIGHT)  
 			{
-				if(jumping)
-					player.body.velocity.x += 100;
+				player.body.velocity.x = 100;
+			}
+			else if (FlxG.keys.pressed.LEFT)  
+			{
+				player.body.velocity.x = -100;
+
 			}
 	}
 	public function new(player:Player) 

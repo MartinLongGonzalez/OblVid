@@ -23,6 +23,7 @@ class WalkingRightState implements PlayerState
 	public function new(player:Player) 
 	{
 		this.player = player;
+		this.player.body.allowMovement = true;
 	}
 	
 }

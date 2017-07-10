@@ -247,14 +247,7 @@ class PlayState extends FlxState
 			for (player in Turn.instance().players) // se debería lamar solo creo
 				player.update(elapsed);
 			//Turn.instance().player.update(elapsed);
-			if (FlxG.keys.pressed.UP)
-			{
-				//player.body.velocity.y = -100;
-			}
-			if (FlxG.keys.pressed.DOWN)
-			{
-				//player.body.= 1000;
-			}
+
 			if (FlxG.keys.pressed.ONE)
 			{
 				Turn.instance().player.bulletSelected = BulletType.Projectile;
@@ -294,6 +287,7 @@ class PlayState extends FlxState
 		}
 		super.update(elapsed);
 	}
+	
 	private function updateTimer()
 	{
 		var timeElapsed = 20 - Turn.instance().timer.currentCount / 100;
@@ -307,7 +301,10 @@ class PlayState extends FlxState
 		}
 		if (timeElapsed <= 0)
 		{
+			Turn.instance().player.state = new WaitingForTurnState(Turn.instance().player);
+			this.turnActive = false;
 			Turn.instance().finish();
+			this.turnActive = true;
 		}
 
 	}

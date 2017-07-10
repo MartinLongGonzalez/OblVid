@@ -38,6 +38,10 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("assets/hero.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("assets/HighscoresBtn.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
@@ -147,7 +151,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "40",
+			build: "79",
 			company: "HaxeFlixel",
 			file: "PesioWorms",
 			fps: 60,

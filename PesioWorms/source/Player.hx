@@ -25,8 +25,22 @@ class Player extends FlxNapeSprite
 	{
 		super(x, y, null, false);
 		bulletSelected = BulletType.Projectile;
-		createCircularBody(20);
+		createRectangularBody(30, 30);
+
+
+/*
+ * 		//this.loadGraphic("hero.png", true, 45, 60);
+		animation.add("run", [2, 3, 4, 5, 6, 7, 8, 9], 30);
+		animation.add("stand", [10]);
+		animation.add("jump", [1]);
+		animation.add("fall", [0]);
+		animation.add("wallHang",[11]);
+		animation.play("stand");
+		*/
+		//createRectangularBody(20,40);
 		body.space = FlxNapeSpace.space;
+		body.allowRotation = false;
+
 	}
 
 	public function addCbType(cbType)
@@ -38,6 +52,7 @@ class Player extends FlxNapeSprite
 	override public function update(elapsed:Float):Void
 	{
 		state.update();
+		//this.updateAnimation(elapsed);
 		super.update(elapsed);
 
 	}
