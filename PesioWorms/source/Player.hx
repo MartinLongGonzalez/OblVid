@@ -40,6 +40,7 @@ class Player extends FlxNapeSprite
 		//createRectangularBody(20,40);
 		body.space = FlxNapeSpace.space;
 		body.allowRotation = false;
+		setBodyMaterial(0);// Elasticity = 0
 
 	}
 

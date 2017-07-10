@@ -10,36 +10,45 @@ import nape.phys.BodyList;
 class JumpState implements PlayerState
 {
 
-	private var jumping:Bool = false;
-	private var bodyList:BodyList = null;
 	private var player:Player;
-	
-	public function update() : Void {
-		/*if (player.body.velocity.y > 0)
-			jumping = true;
-		else
-			jumping = false;
-			*/
-			if (FlxG.keys.pressed.UP)     // left
+	private var count:Int = 0;
+
+	public function update() : Void
+	{
+
+		if (player.body.velocity.y >= -2   && player.body.velocity.y <= 2 )
+		{
+			if (count>0)
 			{
-				//if(!jumping){
-					player.body.velocity.y = -1000;
-				//}
+				//jumping = false;
+				player.state = new StillState(player);
 			}
-			if (FlxG.keys.pressed.RIGHT)  
+			else
+			{
+				count++;
+			}
+
+		}
+		if (count>0)
+		{
+
+		}
+		else{
+			if (FlxG.keys.pressed.RIGHT)
 			{
 				player.body.velocity.x = 100;
 			}
-			else if (FlxG.keys.pressed.LEFT)  
+			if (FlxG.keys.pressed.LEFT)
 			{
 				player.body.velocity.x = -100;
 
 			}
+		}
 	}
-	public function new(player:Player) 
+	public function new(player:Player)
 	{
 		this.player = player;
+		player.body.velocity.y = -400;
 	}
-	
-	
+
 }
