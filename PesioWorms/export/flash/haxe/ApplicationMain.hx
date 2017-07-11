@@ -66,6 +66,10 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("assets/worm.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("flixel/sounds/beep.mp3");
 		types.push (lime.Assets.AssetType.MUSIC);
 		
@@ -151,11 +155,11 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "190",
+			build: "201",
 			company: "HaxeFlixel",
 			file: "PesioWorms",
 			fps: 60,
-			name: "PesioWorms",
+			name: "FlxNapeDestructibleTerrain",
 			orientation: "",
 			packageName: "com.example.myapp",
 			version: "0.0.1",
@@ -173,7 +177,7 @@ class ApplicationMain {
 					parameters: "{}",
 					resizable: true,
 					stencilBuffer: true,
-					title: "PesioWorms",
+					title: "FlxNapeDestructibleTerrain",
 					vsync: true,
 					width: 640,
 					x: null,

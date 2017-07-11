@@ -41,6 +41,7 @@ import Bullet;
 //import Bullet.BulletType;
 class PlayState extends FlxState
 {
+	private var playersPlaying:Int = 2;
 	private var bodyList:BodyList = null;
 	private var terrain:Terrain;
 	private var bomb:Sprite;
@@ -207,8 +208,8 @@ class PlayState extends FlxState
 
 	private function setTextFields()
 	{
-		text_hp_p1 = new FlxTextField(550, 10, 100, "Player 1: 100 HP", 9, true, null);
-		text_hp_p2 = new FlxTextField(10, 10, 100, "Player 2: 100 HP", 9, true, null);
+		text_hp_p1 = new FlxTextField(10, 10, 100, "Player 1: 100 HP", 9, true, null);
+		text_hp_p2 = new FlxTextField(550, 10, 100, "Player 2: 100 HP", 9, true, null);
 		text_time = new FlxTextField(320, 10, 100, "20", 9, true, null);
 		text_weapon = new FlxTextField(320, 20, 100, "BAZOOKA", 9, true, null);
 		text_damage_p2 = new FlxTextField(1, 1, 110, "0", 12, true, null);
@@ -260,7 +261,7 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		if (playersInMap<2 && FlxG.mouse.justPressed )
+		if (playersInMap < playersPlaying && FlxG.mouse.justPressed )
 		{
 			var mp = Vec2.get(FlxG.mouse.x, FlxG.mouse.y);
 			bodyList = FlxNapeSpace.space.bodiesUnderPoint(mp, null, bodyList);
@@ -269,13 +270,14 @@ class PlayState extends FlxState
 				if (playersInMap == 0)
 				{
 					var player1 = addPlayer(mp, Player.CB_PLAYER1);
-					player1.state = new StillState(player1);
-					Turn.instance().player = player1;
+					//player1.state = new StillState(player1);
+					//Turn.instance().player = player1;
 
 				}
 				else
 				{
-					addPlayer(mp, Player.CB_PLAYER2);
+					var player2= addPlayer(mp, Player.CB_PLAYER2);
+					Turn.instance().player = player2;
 					//Turn.instance().paused = false;
 				}
 			}
@@ -284,7 +286,7 @@ class PlayState extends FlxState
 			mp.dispose();
 		}
 
-		if (Turn.instance().paused != true && playersInMap>=2 )
+		if (Turn.instance().paused != true && playersInMap>=playersPlaying )
 		{
 			for (player in Turn.instance().players) // se debería lamar solo creo
 				player.update(elapsed);
@@ -503,6 +505,35 @@ class PlayState extends FlxState
 			bullet.destroy();
 		}
 	}
+	
+	private function resetDamagesPerTurn()
+	{
+		for (player in Turn.instance().players)
+		{
+			player.damageDone = 0;
+		}
+	}
+
+	public function damage_text(player:Player)
+	{
+		if (player.cbType==Player.CB_PLAYER1)
+		{
+			text_damage_p1.visible = true;
+			//add(text_damage_p1);
+			text_damage_p1.text =  Std.string(player.damageDone);
+			text_damage_p1.x = player.body.position.x;
+			text_damage_p1.y =  player.body.position.y - 30;
+		}
+		if (player.cbType == Player.CB_PLAYER2)
+		{
+			text_damage_p2.visible = true;
+			//add(text_damage_p2);
+			text_damage_p2.text =  Std.string(player.damageDone);
+			text_damage_p2.x =  player.body.position.x;
+			text_damage_p2.y = player.body.position.y - 30;
+		}
+
+	}
 
 	public function log(string)
 	{
@@ -531,52 +562,5 @@ class PlayState extends FlxState
 		}
 
 	}
-	public function damage_text(player:Player)
-	{
-		if (player.cbType==Player.CB_PLAYER1)
-		{
-			text_damage_p1.visible = true;
-			//add(text_damage_p1);
-			text_damage_p1.text =  Std.string(player.damageDone);
-			text_damage_p1.x = player.body.position.x;
-			text_damage_p1.y =  player.body.position.y - 30;
-		}
-		if (player.cbType == Player.CB_PLAYER2)
-		{
-			text_damage_p2.visible = true;
-			//add(text_damage_p2);
-			text_damage_p2.text =  Std.string(player.damageDone);
-			text_damage_p2.x =  player.body.position.x;
-			text_damage_p2.y = player.body.position.y - 30;
-		}
 
-	}
-	private function resetDamagesPerTurn()
-	{
-		for (player in Turn.instance().players)
-		{
-			player.damageDone = 0;
-		}
-	}
-
-	/*
-	public function direct_hit_damage_text(playerPos:Vec2, damage:Int)
-	{
-		add(text_direct_hit_damage);
-		text_direct_hit_damage.text =  Std.string(damage);
-		text_direct_hit_damage.x = playerPos.x - 30;
-		text_direct_hit_damage.y = playerPos.y - 30;
-
-	}
-
-	public function explosion_damage_text(playerPos:Vec2, damage:Int)
-	{
-		add(text_explosion_damage);
-		text_explosion_damage.text =  Std.string(damage);
-		text_explosion_damage.x = playerPos.x + 30;
-		text_explosion_damage.y = playerPos.y - 30;
-		//text_direct_hit_damage.
-
-	}
-	*/
 }

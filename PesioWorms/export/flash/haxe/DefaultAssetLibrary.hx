@@ -62,6 +62,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_nokiafc22_ttf);
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_monsterrat_ttf);
 		
@@ -89,6 +90,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/StartGameBtn.png", AssetType.IMAGE);
 		className.set ("assets/terrain.png", __ASSET__assets_terrain_png);
 		type.set ("assets/terrain.png", AssetType.IMAGE);
+		className.set ("assets/worm.png", __ASSET__assets_worm_png);
+		type.set ("assets/worm.png", AssetType.IMAGE);
 		className.set ("flixel/sounds/beep.mp3", __ASSET__flixel_sounds_beep_mp3);
 		type.set ("flixel/sounds/beep.mp3", AssetType.MUSIC);
 		className.set ("flixel/sounds/flixel.mp3", __ASSET__flixel_sounds_flixel_mp3);
@@ -139,6 +142,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		type.set (id, AssetType.IMAGE);
 		id = "assets/terrain.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/worm.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
@@ -210,6 +217,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("assets/terrain.png", __ASSET__assets_terrain_png);
 		type.set ("assets/terrain.png", AssetType.IMAGE);
+		
+		className.set ("assets/worm.png", __ASSET__assets_worm_png);
+		type.set ("assets/worm.png", AssetType.IMAGE);
 		
 		className.set ("flixel/sounds/beep.mp3", __ASSET__flixel_sounds_beep_mp3);
 		type.set ("flixel/sounds/beep.mp3", AssetType.MUSIC);
@@ -882,6 +892,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__assets_patagonia30_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_startgamebtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_terrain_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_worm_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__flixel_sounds_beep_mp3 extends flash.media.Sound { }
 @:keep @:bind #if display private #end class __ASSET__flixel_sounds_flixel_mp3 extends flash.media.Sound { }
 @:keep @:bind #if display private #end class __ASSET__flixel_fonts_nokiafc22_ttf extends flash.text.Font { }
@@ -891,6 +902,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 #elseif html5
+
 
 
 
@@ -925,6 +937,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:image("assets/Patagonia30.jpg") #if display private #end class __ASSET__assets_patagonia30_jpg extends lime.graphics.Image {}
 @:image("assets/StartGameBtn.png") #if display private #end class __ASSET__assets_startgamebtn_png extends lime.graphics.Image {}
 @:image("assets/terrain.png") #if display private #end class __ASSET__assets_terrain_png extends lime.graphics.Image {}
+@:image("assets/worm.png") #if display private #end class __ASSET__assets_worm_png extends lime.graphics.Image {}
 @:file("C:/HaxeToolkit/haxe/lib/flixel/4,2,1/assets/sounds/beep.mp3") #if display private #end class __ASSET__flixel_sounds_beep_mp3 extends lime.utils.Bytes {}
 @:file("C:/HaxeToolkit/haxe/lib/flixel/4,2,1/assets/sounds/flixel.mp3") #if display private #end class __ASSET__flixel_sounds_flixel_mp3 extends lime.utils.Bytes {}
 @:font("C:/HaxeToolkit/haxe/lib/flixel/4,2,1/assets/fonts/nokiafc22.ttf") #if display private #end class __ASSET__flixel_fonts_nokiafc22_ttf extends lime.text.Font {}

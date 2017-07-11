@@ -23,7 +23,7 @@ class Player extends FlxNapeSprite
 	public var damageDone:Int=0;
 	//public var width:Int;
 	//public var height:Int;
-
+	
 	public function new(x, y)
 	{
 		super(x, y, null, false);
@@ -32,15 +32,16 @@ class Player extends FlxNapeSprite
 		//height = 30;
 		createRectangularBody(30, 30);
 
-		/*
-		 * 		//this.loadGraphic("hero.png", true, 45, 60);
-				animation.add("run", [2, 3, 4, 5, 6, 7, 8, 9], 30);
-				animation.add("stand", [10]);
-				animation.add("jump", [1]);
-				animation.add("fall", [0]);
-				animation.add("wallHang",[11]);
-				animation.play("stand");
-				*/
+
+/*
+ * 		//this.loadGraphic("hero.png", true, 45, 60);
+		animation.add("run", [2, 3, 4, 5, 6, 7, 8, 9], 30);
+		animation.add("stand", [10]);
+		animation.add("jump", [1]);
+		animation.add("fall", [0]);
+		animation.add("wallHang",[11]);
+		animation.play("stand");
+		*/
 		//createRectangularBody(20,40);
 		body.space = FlxNapeSpace.space;
 		body.allowRotation = false;
