@@ -391,11 +391,17 @@ class PlayState extends FlxState
 		var mousePosition = FlxG.mouse.getPosition();
 		var playerPosX = Turn.instance().player.body.position.x;
 		var playerPosY = Turn.instance().player.body.position.y;
+		var gunDistance:Int = 0;
+		if (mousePosition.x <= playerPosX){
+			gunDistance = -24;
+		}else{
+			gunDistance = 24;
+		}
 		switch (Turn.instance().player.bulletSelected)
 		{
-			case BulletType.Bazooka: { bullet = new BazookaBullet(playerPosX, playerPosY - 30);}
-			case BulletType.Shotgun: { bullet = new ShotgunBullet(playerPosX, playerPosY - 30); }
-			case BulletType.SpaceRift: { bullet = new SpaceRiftBullet(playerPosX, playerPosY - 30); }
+			case BulletType.Bazooka: { bullet = new BazookaBullet(playerPosX + gunDistance, playerPosY );}
+			case BulletType.Shotgun: { bullet = new ShotgunBullet(playerPosX + gunDistance, playerPosY ); }
+			case BulletType.SpaceRift: { bullet = new SpaceRiftBullet(playerPosX + gunDistance, playerPosY ); }
 		}
 		createBomb(bullet.explotionRadius);
 		add(bullet);
