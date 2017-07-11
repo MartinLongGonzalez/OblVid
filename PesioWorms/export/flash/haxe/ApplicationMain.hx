@@ -167,7 +167,11 @@ class ApplicationMain {
 		
 		config = {
 			
+<<<<<<< HEAD
 			build: "209",
+=======
+			build: "206",
+>>>>>>> db6b7984d01dcfbe0a6bd5e6da9a76aef94d59bf
 			company: "HaxeFlixel",
 			file: "PesioWorms",
 			fps: 60,

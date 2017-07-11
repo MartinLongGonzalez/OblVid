@@ -46,7 +46,7 @@ class PlayState extends FlxState
 	private var terrain:Terrain;
 	private var bomb:Sprite;
 	//private var hand:PivotJoint;
-
+	private var firstTurn:Bool = true;
 	private var text_hp_p1:FlxTextField;
 	private var text_hp_p2:FlxTextField;
 	private var text_time:FlxTextField;
@@ -287,59 +287,62 @@ class PlayState extends FlxState
 			bodyList.clear();
 			mp.dispose();
 		}
+		else{
+			if (Turn.instance().paused != true && playersInMap>=playersPlaying )
+			{
+				for (player in Turn.instance().players) // se debería lamar solo creo
+					player.update(elapsed);
+				//Turn.instance().player.update(elapsed);
 
-		if (Turn.instance().paused != true && playersInMap>=playersPlaying )
-		{
-			for (player in Turn.instance().players) // se debería lamar solo creo
-				player.update(elapsed);
-			//Turn.instance().player.update(elapsed);
+				if (FlxG.keys.pressed.ONE)
+				{
+					Turn.instance().player.bulletSelected = BulletType.Bazooka;
+					text_weapon.text = "BAZOOKA";
+				}
+				if (FlxG.keys.pressed.TWO)
+				{
+					Turn.instance().player.bulletSelected = BulletType.Shotgun;
+					text_weapon.text = "SHOTGUN";
+				}
+				if (FlxG.keys.pressed.THREE)
+				{
+					Turn.instance().player.bulletSelected = BulletType.SpaceRift;
+					text_weapon.text = "SPACE RIFT";
+				}
 
-			if (FlxG.keys.pressed.ONE)
-			{
-				Turn.instance().player.bulletSelected = BulletType.Bazooka;
-				text_weapon.text = "BAZOOKA";
-			}
-			if (FlxG.keys.pressed.TWO)
-			{
-				Turn.instance().player.bulletSelected = BulletType.Shotgun;
-				text_weapon.text = "SHOTGUN";
-			}
-			if (FlxG.keys.pressed.THREE)
-			{
-				Turn.instance().player.bulletSelected = BulletType.SpaceRift;
-				text_weapon.text = "SPACE RIFT";
-			}
+				if ( FlxG.mouse.justPressed )
+				{
+					shootBullet();
+					Turn.instance().paused = true;
+				}
+				updateTimer();
 
-			if ( FlxG.mouse.justPressed )
-			{
-				shootBullet();
-				Turn.instance().paused = true;
 			}
-			updateTimer();
+			else if (playersInMap >=2)
+			{
+				if (this.turnActive)
+				{
+					Turn.instance().player.state = new WaitingForTurnState(Turn.instance().player);
+					this.turnActive = false;
+				}
+				currentShootingTime += elapsed;
+				if (currentShootingTime > maxShootingTime)
+				{
+					Turn.instance().finish();
+					this.turnActive = true;
+					//player = Turn.instance().player;
+					updateWeaponText();
+					currentShootingTime = 0;
+					resetDamagesPerTurn();
+					text_damage_p1.visible = false;
+					text_damage_p2.visible = false;
+				}
 
-		}
-		else if (playersInMap >=2)
-		{
-			if (this.turnActive)
-			{
-				Turn.instance().player.state = new WaitingForTurnState(Turn.instance().player);
-				this.turnActive = false;
-			}
-			currentShootingTime += elapsed;
-			if (currentShootingTime > maxShootingTime)
-			{
-				Turn.instance().finish();
-				this.turnActive = true;
-				//player = Turn.instance().player;
-				updateWeaponText();
-				currentShootingTime = 0;
-				resetDamagesPerTurn();
-				text_damage_p1.visible = false;
-				text_damage_p2.visible = false;
 			}
 
 		}
 		super.update(elapsed);
+
 	}
 
 	private function updateTimer()
@@ -391,11 +394,17 @@ class PlayState extends FlxState
 		var mousePosition = FlxG.mouse.getPosition();
 		var playerPosX = Turn.instance().player.body.position.x;
 		var playerPosY = Turn.instance().player.body.position.y;
+		var gunDistance:Int = 0;
+		if (mousePosition.x <= playerPosX){
+			gunDistance = -24;
+		}else{
+			gunDistance = 24;
+		}
 		switch (Turn.instance().player.bulletSelected)
 		{
-			case BulletType.Bazooka: { bullet = new BazookaBullet(playerPosX, playerPosY - 30);}
-			case BulletType.Shotgun: { bullet = new ShotgunBullet(playerPosX, playerPosY - 30); }
-			case BulletType.SpaceRift: { bullet = new SpaceRiftBullet(playerPosX, playerPosY - 30); }
+			case BulletType.Bazooka: { bullet = new BazookaBullet(playerPosX + gunDistance, playerPosY );}
+			case BulletType.Shotgun: { bullet = new ShotgunBullet(playerPosX + gunDistance, playerPosY ); }
+			case BulletType.SpaceRift: { bullet = new SpaceRiftBullet(playerPosX + gunDistance, playerPosY ); }
 		}
 		createBomb(bullet.explotionRadius);
 		add(bullet);
@@ -508,7 +517,7 @@ class PlayState extends FlxState
 			bullet.destroy();
 		}
 	}
-	
+
 	private function resetDamagesPerTurn()
 	{
 		for (player in Turn.instance().players)
