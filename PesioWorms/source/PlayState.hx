@@ -1,5 +1,6 @@
 package;
 
+import flash.geom.Rectangle;
 import flixel.addons.nape.FlxNapeSpace;
 import flixel.addons.nape.FlxNapeSprite;
 import flixel.addons.nape.FlxNapeTilemap;
@@ -415,6 +416,7 @@ class PlayState extends FlxState
 
 	private function damageNearByPlayers():Void
 	{
+
 		for (player in Turn.instance().players)
 		{
 			if (bullet.bulletType!=BulletType.SpaceRift)
@@ -424,14 +426,21 @@ class PlayState extends FlxState
 				var distance = bulletPos.distanceTo(playerPos);
 				if (distance <= bullet.explotionRadius )
 				{
-					player.healthPoints -=  Std.int(bullet.damage - (distance*bullet.damage/bullet.explotionRadius ) ); // damage = bullet.dmg - (distanc/radius)*bulletDamage
+					player.healthPoints -=  Std.int(bullet.damage - (distance * bullet.damage / bullet.explotionRadius ) ); // damage = bullet.dmg - (distanc/radius)*bulletDamage
+					//show
 					updatePlayersTexts(player);
 				}
-
+			
 			}
 			else
 			{
-				// Space Rift
+				// SpaceRift makes the same damage in all its rectangle area
+				var ellipsesRectangle = new Rectangle(bullet.body.position.x, bullet.body.position.y,600,60);
+				var playersRectangle = new Rectangle(player.body.position.x, player.body.position.y,30,30);
+				if(ellipsesRectangle.intersects(playersRectangle)){
+					player.healthPoints -= 20;
+					updatePlayersTexts(player);
+				}
 			}
 		}
 	}
