@@ -20,7 +20,8 @@ class ShotgunBullet extends Bullet
 		this.speed = 3000;
 		this.damage = 35;
 		this.explotionRadius = 10; // > Ratio Less explotion radius
-		createCircularBody(2);
+		this.bulletSizeRadius = 2;
+		createCircularBody(this.bulletSizeRadius);
 		body.space = FlxNapeSpace.space;
 		body.cbTypes.add(CB_SHOTGUN_BULLET);
 	}

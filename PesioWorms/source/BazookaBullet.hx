@@ -21,8 +21,9 @@ class BazookaBullet extends Bullet
 		this.bulletType = BulletType.Bazooka;
 		this.speed = 500;
 		this.damage = 50;
-		this.explotionRadius = 40;
-		createCircularBody(2);
+		this.explotionRadius = 80;
+		this.bulletSizeRadius = 2;
+		createCircularBody(this.bulletSizeRadius);
 		body.space = FlxNapeSpace.space;
 		body.cbTypes.add(CB_BAZOOKA_BULLET);
 	}

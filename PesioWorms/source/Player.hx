@@ -21,10 +21,15 @@ class Player extends FlxNapeSprite
 	public var cbType:CbType;
 	public var state:PlayerState;
 
+	//public var width:Int;
+	//public var height:Int;
+	
 	public function new(x, y)
 	{
 		super(x, y, null, false);
 		bulletSelected = BulletType.Bazooka;
+		//width = 30;
+		//height = 30;
 		createRectangularBody(30, 30);
 
 

@@ -404,12 +404,36 @@ class PlayState extends FlxState
 				}
 				else
 				{
-					explosion(bullet.body.position);
+					damageNearByPlayers();  // Explosion damages players depending on distance to them
+					explosion(bullet.body.position); /// Explosion's Graphics
 					bullet.destroy();
 				}
 			}
 		});
 
+	}
+
+	private function damageNearByPlayers():Void
+	{
+		for (player in Turn.instance().players)
+		{
+			if (bullet.bulletType!=BulletType.SpaceRift)
+			{
+				var bulletPos = bullet.getPosition();
+				var playerPos = player.getPosition();
+				var distance = bulletPos.distanceTo(playerPos);
+				if (distance <= bullet.explotionRadius )
+				{
+					player.healthPoints -=  Std.int(bullet.damage - (distance*bullet.damage/bullet.explotionRadius ) ); // damage = bullet.dmg - (distanc/radius)*bulletDamage
+					updatePlayersTexts(player);
+				}
+
+			}
+			else
+			{
+				// Space Rift
+			}
+		}
 	}
 
 	public function bulletHitPlayer(callback:InteractionCallback)
@@ -428,7 +452,8 @@ class PlayState extends FlxState
 						if (player.cbType == obj)
 						{
 							player.healthPoints -= bullet_dmg;
-							text1.text = "Player 1: " + player.healthPoints + " HP";
+							updatePlayersTexts(player);
+							//text1.text = "Player 1: " + player.healthPoints + " HP";
 						}
 					}
 
@@ -440,7 +465,8 @@ class PlayState extends FlxState
 						if (player.cbType == obj)
 						{
 							player.healthPoints -= bullet_dmg;
-							text2.text = "Player 2: " + player.healthPoints + " HP";
+							updatePlayersTexts(player);
+							//text2.text = "Player 2: " + player.healthPoints + " HP";
 						}
 					}
 				}
@@ -462,5 +488,18 @@ class PlayState extends FlxState
 			case BulletType.Shotgun: {  text_weapon.text = "SHOTGUN"; }
 			case BulletType.SpaceRift: { text_weapon.text = "SPACE RIFT"; }
 		}
+	}
+
+	public function updatePlayersTexts(player:Player):Void
+	{
+		if (player.cbType==Player.CB_PLAYER1)
+		{
+			text1.text = "Player 1: " + player.healthPoints + " HP";
+		}
+		if (player.cbType == Player.CB_PLAYER2)
+		{
+			text2.text = "Player 2: " + player.healthPoints + " HP";
+		}
+
 	}
 }
