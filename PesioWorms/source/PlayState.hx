@@ -261,6 +261,8 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
+		CheckGameEnd();
+		
 		if (playersInMap < playersPlaying && FlxG.mouse.justPressed )
 		{
 			var mp = Vec2.get(FlxG.mouse.x, FlxG.mouse.y);
@@ -380,6 +382,7 @@ class PlayState extends FlxState
 		Turn.instance().players.insert(Turn.instance().players.length, player);
 		player.state = new WaitingForTurnState(player);
 		playersInMap++;
+		add(player);
 		return player;
 	}
 
@@ -561,6 +564,19 @@ class PlayState extends FlxState
 			text_hp_p2.text = "Player 2: " + player.healthPoints + " HP";
 		}
 
+	}
+	
+	private function CheckGameEnd()
+	{
+		for (player in Turn.instance().players) 
+		{
+			if (player.healthPoints <= 0){
+				var gameEndState = new GameEndState();
+				gameEndState.setMainText("You Win!");
+				Turn.restart();
+				FlxG.switchState(gameEndState);
+			}
+		}
 	}
 
 }

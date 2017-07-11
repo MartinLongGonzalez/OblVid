@@ -63,6 +63,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
+		
+		
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_nokiafc22_ttf);
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_monsterrat_ttf);
 		
@@ -80,18 +83,24 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/hero.png", AssetType.IMAGE);
 		className.set ("assets/HighscoresBtn.png", __ASSET__assets_highscoresbtn_png);
 		type.set ("assets/HighscoresBtn.png", AssetType.IMAGE);
+		className.set ("assets/MainMenuBtn.png", __ASSET__assets_mainmenubtn_png);
+		type.set ("assets/MainMenuBtn.png", AssetType.IMAGE);
 		className.set ("assets/music/boris.mp3", __ASSET__assets_music_boris_mp3);
 		type.set ("assets/music/boris.mp3", AssetType.MUSIC);
 		className.set ("assets/NewGameBtn.png", __ASSET__assets_newgamebtn_png);
 		type.set ("assets/NewGameBtn.png", AssetType.IMAGE);
 		className.set ("assets/Patagonia30.jpg", __ASSET__assets_patagonia30_jpg);
 		type.set ("assets/Patagonia30.jpg", AssetType.IMAGE);
+		className.set ("assets/PlayAgainBtn.png", __ASSET__assets_playagainbtn_png);
+		type.set ("assets/PlayAgainBtn.png", AssetType.IMAGE);
+		className.set ("assets/ScoresBtn.png", __ASSET__assets_scoresbtn_png);
+		type.set ("assets/ScoresBtn.png", AssetType.IMAGE);
 		className.set ("assets/StartGameBtn.png", __ASSET__assets_startgamebtn_png);
 		type.set ("assets/StartGameBtn.png", AssetType.IMAGE);
 		className.set ("assets/terrain.png", __ASSET__assets_terrain_png);
 		type.set ("assets/terrain.png", AssetType.IMAGE);
-		className.set ("assets/worm.png", __ASSET__assets_worm_png);
-		type.set ("assets/worm.png", AssetType.IMAGE);
+		className.set ("assets/worm_left.png", __ASSET__assets_worm_left_png);
+		type.set ("assets/worm_left.png", AssetType.IMAGE);
 		className.set ("flixel/sounds/beep.mp3", __ASSET__flixel_sounds_beep_mp3);
 		type.set ("flixel/sounds/beep.mp3", AssetType.MUSIC);
 		className.set ("flixel/sounds/flixel.mp3", __ASSET__flixel_sounds_flixel_mp3);
@@ -125,6 +134,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
+		id = "assets/MainMenuBtn.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
 		id = "assets/music/boris.mp3";
 		path.set (id, id);
 		
@@ -137,6 +150,14 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
+		id = "assets/PlayAgainBtn.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/ScoresBtn.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
 		id = "assets/StartGameBtn.png";
 		path.set (id, id);
 		
@@ -145,7 +166,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
-		id = "assets/worm.png";
+		id = "assets/worm_left.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
@@ -203,6 +224,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		className.set ("assets/HighscoresBtn.png", __ASSET__assets_highscoresbtn_png);
 		type.set ("assets/HighscoresBtn.png", AssetType.IMAGE);
 		
+		className.set ("assets/MainMenuBtn.png", __ASSET__assets_mainmenubtn_png);
+		type.set ("assets/MainMenuBtn.png", AssetType.IMAGE);
+		
 		className.set ("assets/music/boris.mp3", __ASSET__assets_music_boris_mp3);
 		type.set ("assets/music/boris.mp3", AssetType.MUSIC);
 		
@@ -212,14 +236,20 @@ class DefaultAssetLibrary extends AssetLibrary {
 		className.set ("assets/Patagonia30.jpg", __ASSET__assets_patagonia30_jpg);
 		type.set ("assets/Patagonia30.jpg", AssetType.IMAGE);
 		
+		className.set ("assets/PlayAgainBtn.png", __ASSET__assets_playagainbtn_png);
+		type.set ("assets/PlayAgainBtn.png", AssetType.IMAGE);
+		
+		className.set ("assets/ScoresBtn.png", __ASSET__assets_scoresbtn_png);
+		type.set ("assets/ScoresBtn.png", AssetType.IMAGE);
+		
 		className.set ("assets/StartGameBtn.png", __ASSET__assets_startgamebtn_png);
 		type.set ("assets/StartGameBtn.png", AssetType.IMAGE);
 		
 		className.set ("assets/terrain.png", __ASSET__assets_terrain_png);
 		type.set ("assets/terrain.png", AssetType.IMAGE);
 		
-		className.set ("assets/worm.png", __ASSET__assets_worm_png);
-		type.set ("assets/worm.png", AssetType.IMAGE);
+		className.set ("assets/worm_left.png", __ASSET__assets_worm_left_png);
+		type.set ("assets/worm_left.png", AssetType.IMAGE);
 		
 		className.set ("flixel/sounds/beep.mp3", __ASSET__flixel_sounds_beep_mp3);
 		type.set ("flixel/sounds/beep.mp3", AssetType.MUSIC);
@@ -887,12 +917,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__assets_generatemapbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_hero_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_highscoresbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_mainmenubtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_music_boris_mp3 extends flash.media.Sound { }
 @:keep @:bind #if display private #end class __ASSET__assets_newgamebtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_patagonia30_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_playagainbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_scoresbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_startgamebtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_terrain_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
-@:keep @:bind #if display private #end class __ASSET__assets_worm_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_worm_left_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__flixel_sounds_beep_mp3 extends flash.media.Sound { }
 @:keep @:bind #if display private #end class __ASSET__flixel_sounds_flixel_mp3 extends flash.media.Sound { }
 @:keep @:bind #if display private #end class __ASSET__flixel_fonts_nokiafc22_ttf extends flash.text.Font { }
@@ -902,6 +935,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 #elseif html5
+
+
+
 
 
 
@@ -932,12 +968,15 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:image("assets/GenerateMapBtn.png") #if display private #end class __ASSET__assets_generatemapbtn_png extends lime.graphics.Image {}
 @:image("assets/hero.png") #if display private #end class __ASSET__assets_hero_png extends lime.graphics.Image {}
 @:image("assets/HighscoresBtn.png") #if display private #end class __ASSET__assets_highscoresbtn_png extends lime.graphics.Image {}
+@:image("assets/MainMenuBtn.png") #if display private #end class __ASSET__assets_mainmenubtn_png extends lime.graphics.Image {}
 @:file("assets/music/boris.mp3") #if display private #end class __ASSET__assets_music_boris_mp3 extends lime.utils.Bytes {}
 @:image("assets/NewGameBtn.png") #if display private #end class __ASSET__assets_newgamebtn_png extends lime.graphics.Image {}
 @:image("assets/Patagonia30.jpg") #if display private #end class __ASSET__assets_patagonia30_jpg extends lime.graphics.Image {}
+@:image("assets/PlayAgainBtn.png") #if display private #end class __ASSET__assets_playagainbtn_png extends lime.graphics.Image {}
+@:image("assets/ScoresBtn.png") #if display private #end class __ASSET__assets_scoresbtn_png extends lime.graphics.Image {}
 @:image("assets/StartGameBtn.png") #if display private #end class __ASSET__assets_startgamebtn_png extends lime.graphics.Image {}
 @:image("assets/terrain.png") #if display private #end class __ASSET__assets_terrain_png extends lime.graphics.Image {}
-@:image("assets/worm.png") #if display private #end class __ASSET__assets_worm_png extends lime.graphics.Image {}
+@:image("assets/worm_left.png") #if display private #end class __ASSET__assets_worm_left_png extends lime.graphics.Image {}
 @:file("C:/HaxeToolkit/haxe/lib/flixel/4,2,1/assets/sounds/beep.mp3") #if display private #end class __ASSET__flixel_sounds_beep_mp3 extends lime.utils.Bytes {}
 @:file("C:/HaxeToolkit/haxe/lib/flixel/4,2,1/assets/sounds/flixel.mp3") #if display private #end class __ASSET__flixel_sounds_flixel_mp3 extends lime.utils.Bytes {}
 @:font("C:/HaxeToolkit/haxe/lib/flixel/4,2,1/assets/fonts/nokiafc22.ttf") #if display private #end class __ASSET__flixel_fonts_nokiafc22_ttf extends lime.text.Font {}

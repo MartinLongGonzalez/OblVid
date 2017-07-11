@@ -20,7 +20,8 @@ class Player extends FlxNapeSprite
 	public var bulletSelected:BulletType;
 	public var cbType:CbType;
 	public var state:PlayerState;
-	public var damageDone:Int=0;
+	public var damageDone:Int = 0;
+	
 	//public var width:Int;
 	//public var height:Int;
 	
@@ -31,11 +32,7 @@ class Player extends FlxNapeSprite
 		//width = 30;
 		//height = 30;
 		createRectangularBody(30, 30);
-
-
-/*
- * 		//this.loadGraphic("hero.png", true, 45, 60);
-		animation.add("run", [2, 3, 4, 5, 6, 7, 8, 9], 30);
+		/*animation.add("run", [2, 3, 4, 5, 6, 7, 8, 9], 30);
 		animation.add("stand", [10]);
 		animation.add("jump", [1]);
 		animation.add("fall", [0]);

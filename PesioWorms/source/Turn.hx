@@ -16,13 +16,18 @@ class Turn
 	private static var turn:Turn;
 	
 	
-	public static function instance():Turn{
+	public static function instance():Turn
+	{
 		if (turn == null){
 			turn = new Turn();
 		}
 		return turn;
 	}
 	
+	public static function restart():Void
+	{
+		turn = null;
+	}
 	
 	private function new() 
 	{

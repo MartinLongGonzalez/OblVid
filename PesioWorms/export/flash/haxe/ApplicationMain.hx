@@ -46,6 +46,10 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("assets/MainMenuBtn.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("assets/music/boris.mp3");
 		types.push (lime.Assets.AssetType.MUSIC);
 		
@@ -58,6 +62,14 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("assets/PlayAgainBtn.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/ScoresBtn.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("assets/StartGameBtn.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
@@ -66,7 +78,7 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
-		urls.push ("assets/worm.png");
+		urls.push ("assets/worm_left.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -155,7 +167,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "201",
+			build: "209",
 			company: "HaxeFlixel",
 			file: "PesioWorms",
 			fps: 60,

@@ -30,6 +30,7 @@ class WalkingLeftState implements PlayerState
 	{
 		this.player = player;
 		player.body.velocity.x = -150;
+		//player.loadGraphic("worm_left.png", true, 45, 60);
 	}
 
 }
