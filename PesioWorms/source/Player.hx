@@ -20,7 +20,7 @@ class Player extends FlxNapeSprite
 	public var bulletSelected:BulletType;
 	public var cbType:CbType;
 	public var state:PlayerState;
-
+	public var damageDone:Int=0;
 	//public var width:Int;
 	//public var height:Int;
 	
