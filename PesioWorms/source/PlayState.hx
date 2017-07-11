@@ -46,18 +46,14 @@ class PlayState extends FlxState
 	private var bomb:Sprite;
 	//private var hand:PivotJoint;
 
-	private var text1:FlxTextField;
-	private var text2:FlxTextField;
+	private var text_hp_p1:FlxTextField;
+	private var text_hp_p2:FlxTextField;
 	private var text_time:FlxTextField;
 	private var text_weapon:FlxTextField;
-	private var text_explosion_damage:FlxTextField;
-	private var text_direct_hit_damage:FlxTextField;
-
 	private var text_damage_p1:FlxTextField;
-	private var turnDamage_p1:Int;
 	private var text_damage_p2:FlxTextField;
-	private var turnDamage_p2:Int;
 
+	private var turnTime = 10;
 	private var bullet:Bullet;
 	private var turn:Turn;
 	private var randomSeed:Int;
@@ -128,7 +124,7 @@ class PlayState extends FlxState
 		if (radius>0)
 			newBomb.graphics.drawCircle(0, 0, radius);
 		else
-			newBomb.graphics.drawEllipse(-400, 0, 800, 25); // No explosion radius --> space rift (has different dimensions) -400 to center it
+			newBomb.graphics.drawEllipse(-450, 0, 900, 25); // No explosion radius --> space rift (has different dimensions) -400 to center it
 		this.bomb = newBomb;
 	}
 
@@ -211,19 +207,18 @@ class PlayState extends FlxState
 
 	private function setTextFields()
 	{
-		text1 = new FlxTextField(550, 10, 100, "Player 1: 100 HP", 9, true, null);
-		add(text1);
-		text2 = new FlxTextField(10, 10, 100, "Player 2: 100 HP", 9, true, null);
-		add(text2);
+		text_hp_p1 = new FlxTextField(550, 10, 100, "Player 1: 100 HP", 9, true, null);
+		text_hp_p2 = new FlxTextField(10, 10, 100, "Player 2: 100 HP", 9, true, null);
 		text_time = new FlxTextField(320, 10, 100, "20", 9, true, null);
-		add(text_time);
 		text_weapon = new FlxTextField(320, 20, 100, "BAZOOKA", 9, true, null);
-		add(text_weapon);
-		text_direct_hit_damage = new FlxTextField(1, 1, 120, "0", 13, true, null);
-		//add(text_direct_hit_damage);
-		text_explosion_damage = new FlxTextField(1, 1, 110, "0", 12, true, null);
 		text_damage_p2 = new FlxTextField(1, 1, 110, "0", 12, true, null);
 		text_damage_p1 = new FlxTextField(1, 1, 110, "0", 12, true, null);
+		add(text_damage_p1);
+		add(text_damage_p2);
+		add(text_hp_p1);
+		add(text_hp_p2);
+		add(text_time);
+		add(text_weapon);
 		//add(text_explosion_damage);
 		//text_direct_hit_damage.color = new FlxColor(0xd82222);
 	}
@@ -335,6 +330,8 @@ class PlayState extends FlxState
 				updateWeaponText();
 				currentShootingTime = 0;
 				resetDamagesPerTurn();
+				text_damage_p1.visible = false;
+				text_damage_p2.visible = false;
 			}
 
 		}
@@ -343,7 +340,7 @@ class PlayState extends FlxState
 
 	private function updateTimer()
 	{
-		var timeElapsed = 20 - Turn.instance().timer.currentCount / 100;
+		var timeElapsed = turnTime - Turn.instance().timer.currentCount / 100;
 		if ( timeElapsed < 10)
 		{
 			log( ("" + timeElapsed).substr(0, 1) ) ;
@@ -452,7 +449,7 @@ class PlayState extends FlxState
 			else
 			{
 				// SpaceRift makes the same damage in all its rectangle area
-				var ellipsesRectangle = new Rectangle(bullet.body.position.x, bullet.body.position.y,600,60);
+				var ellipsesRectangle = new Rectangle(bullet.body.position.x - 450, bullet.body.position.y,900,30);
 				var playersRectangle = new Rectangle(player.body.position.x, player.body.position.y,30,30);
 				if (ellipsesRectangle.intersects(playersRectangle))
 				{
@@ -526,11 +523,11 @@ class PlayState extends FlxState
 	{
 		if (player.cbType==Player.CB_PLAYER1)
 		{
-			text1.text = "Player 1: " + player.healthPoints + " HP";
+			text_hp_p1.text = "Player 1: " + player.healthPoints + " HP";
 		}
 		if (player.cbType == Player.CB_PLAYER2)
 		{
-			text2.text = "Player 2: " + player.healthPoints + " HP";
+			text_hp_p2.text = "Player 2: " + player.healthPoints + " HP";
 		}
 
 	}
@@ -538,22 +535,26 @@ class PlayState extends FlxState
 	{
 		if (player.cbType==Player.CB_PLAYER1)
 		{
-			add(text_damage_p1);
+			text_damage_p1.visible = true;
+			//add(text_damage_p1);
 			text_damage_p1.text =  Std.string(player.damageDone);
 			text_damage_p1.x = player.body.position.x;
 			text_damage_p1.y =  player.body.position.y - 30;
 		}
 		if (player.cbType == Player.CB_PLAYER2)
 		{
-			add(text_damage_p2);
+			text_damage_p2.visible = true;
+			//add(text_damage_p2);
 			text_damage_p2.text =  Std.string(player.damageDone);
 			text_damage_p2.x =  player.body.position.x;
 			text_damage_p2.y = player.body.position.y - 30;
 		}
 
 	}
-	private function resetDamagesPerTurn(){
-		for(player in Turn.instance().players){
+	private function resetDamagesPerTurn()
+	{
+		for (player in Turn.instance().players)
+		{
 			player.damageDone = 0;
 		}
 	}
