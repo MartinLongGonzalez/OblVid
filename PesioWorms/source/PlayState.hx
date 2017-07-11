@@ -116,8 +116,11 @@ class PlayState extends FlxState
 	private function createBomb(radius:Float)
 	{
 		var newBomb = new Sprite();
-		newBomb .graphics.beginFill(0xffffff, 1);
-		newBomb .graphics.drawCircle(0, 0, radius);
+		newBomb.graphics.beginFill(0xffffff, 1);
+		if (radius>0)
+			newBomb.graphics.drawCircle(0, 0, radius);
+		else
+			newBomb.graphics.drawEllipse(-400, 0, 800, 25); // No explosion radius --> space rift (has different dimensions) -400 to center it
 		this.bomb = newBomb;
 	}
 
@@ -128,7 +131,7 @@ class PlayState extends FlxState
 			new InteractionListener(
 				CbEvent.BEGIN,
 				InteractionType.COLLISION,
-				ProjectileBullet.CB_PROJECTILE_BULLET,
+				BazookaBullet.CB_BAZOOKA_BULLET,
 				CbType.ANY_BODY,
 				bulletHitTerrain));
 
@@ -136,7 +139,7 @@ class PlayState extends FlxState
 			new InteractionListener(
 				CbEvent.BEGIN,
 				InteractionType.COLLISION,
-				ProjectileBullet.CB_PROJECTILE_BULLET,
+				BazookaBullet.CB_BAZOOKA_BULLET,
 				Player.CB_PLAYER1,
 				bulletHitPlayer));
 
@@ -144,7 +147,7 @@ class PlayState extends FlxState
 			new InteractionListener(
 				CbEvent.BEGIN,
 				InteractionType.COLLISION,
-				ProjectileBullet.CB_PROJECTILE_BULLET,
+				BazookaBullet.CB_BAZOOKA_BULLET,
 				Player.CB_PLAYER2,
 				bulletHitPlayer));
 
@@ -152,7 +155,7 @@ class PlayState extends FlxState
 			new InteractionListener(
 				CbEvent.BEGIN,
 				InteractionType.COLLISION,
-				StraightBullet.CB_STRAIGHT_BULLET,
+				ShotgunBullet.CB_SHOTGUN_BULLET,
 				CbType.ANY_BODY,
 				bulletHitTerrain));
 
@@ -160,7 +163,7 @@ class PlayState extends FlxState
 			new InteractionListener(
 				CbEvent.BEGIN,
 				InteractionType.COLLISION,
-				StraightBullet.CB_STRAIGHT_BULLET,
+				ShotgunBullet.CB_SHOTGUN_BULLET,
 				Player.CB_PLAYER1,
 				bulletHitPlayer));
 
@@ -168,7 +171,31 @@ class PlayState extends FlxState
 			new InteractionListener(
 				CbEvent.BEGIN,
 				InteractionType.COLLISION,
-				StraightBullet.CB_STRAIGHT_BULLET,
+				ShotgunBullet.CB_SHOTGUN_BULLET,
+				Player.CB_PLAYER2,
+				bulletHitPlayer));
+
+		FlxNapeSpace.space.listeners.add(
+			new InteractionListener(
+				CbEvent.BEGIN,
+				InteractionType.COLLISION,
+				SpaceRiftBullet.CB_SPACE_RIFT_BULLET,
+				CbType.ANY_BODY,
+				bulletHitTerrain));
+
+		FlxNapeSpace.space.listeners.add(
+			new InteractionListener(
+				CbEvent.BEGIN,
+				InteractionType.COLLISION,
+				SpaceRiftBullet.CB_SPACE_RIFT_BULLET,
+				Player.CB_PLAYER1,
+				bulletHitPlayer));
+
+		FlxNapeSpace.space.listeners.add(
+			new InteractionListener(
+				CbEvent.BEGIN,
+				InteractionType.COLLISION,
+				SpaceRiftBullet.CB_SPACE_RIFT_BULLET,
 				Player.CB_PLAYER2,
 				bulletHitPlayer));
 
@@ -255,13 +282,18 @@ class PlayState extends FlxState
 
 			if (FlxG.keys.pressed.ONE)
 			{
-				Turn.instance().player.bulletSelected = BulletType.Projectile;
+				Turn.instance().player.bulletSelected = BulletType.Bazooka;
 				text_weapon.text = "BAZOOKA";
 			}
 			if (FlxG.keys.pressed.TWO)
 			{
-				Turn.instance().player.bulletSelected = BulletType.Straight;
+				Turn.instance().player.bulletSelected = BulletType.Shotgun;
 				text_weapon.text = "SHOTGUN";
+			}
+			if (FlxG.keys.pressed.THREE)
+			{
+				Turn.instance().player.bulletSelected = BulletType.SpaceRift;
+				text_weapon.text = "SPACE RIFT";
 			}
 
 			if ( FlxG.mouse.justPressed )
@@ -343,8 +375,9 @@ class PlayState extends FlxState
 		var playerPosY = Turn.instance().player.body.position.y;
 		switch (Turn.instance().player.bulletSelected)
 		{
-			case BulletType.Projectile: { bullet = new ProjectileBullet(playerPosX, playerPosY - 30);}
-			case BulletType.Straight: { bullet = new StraightBullet(playerPosX, playerPosY - 30); }
+			case BulletType.Bazooka: { bullet = new BazookaBullet(playerPosX, playerPosY - 30);}
+			case BulletType.Shotgun: { bullet = new ShotgunBullet(playerPosX, playerPosY - 30); }
+			case BulletType.SpaceRift: { bullet = new SpaceRiftBullet(playerPosX, playerPosY - 30); }
 		}
 		createBomb(bullet.explotionRadius);
 		add(bullet);
@@ -365,7 +398,6 @@ class PlayState extends FlxState
 		{
 			if (bullet != null)
 			{
-				//if (bullet != null && bullet.had_contact == false){
 				if (obj == Player.CB_PLAYER1 || obj == Player.CB_PLAYER2 )
 				{
 
@@ -382,7 +414,7 @@ class PlayState extends FlxState
 
 	public function bulletHitPlayer(callback:InteractionCallback)
 	{
-		//if(bullet!=null && bullet.had_contact==false){
+
 		if (bullet!=null)
 		{
 			var bullet_dmg = bullet.damage;
@@ -426,8 +458,9 @@ class PlayState extends FlxState
 	{
 		switch (Turn.instance().player.bulletSelected)
 		{
-			case BulletType.Projectile: { text_weapon.text = "BAZOOKA"; }
-			case BulletType.Straight: {  text_weapon.text = "SHOTGUN"; }
+			case BulletType.Bazooka: { text_weapon.text = "BAZOOKA"; }
+			case BulletType.Shotgun: {  text_weapon.text = "SHOTGUN"; }
+			case BulletType.SpaceRift: { text_weapon.text = "SPACE RIFT"; }
 		}
 	}
 }

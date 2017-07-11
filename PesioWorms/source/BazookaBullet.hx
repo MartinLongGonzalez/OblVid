@@ -10,21 +10,21 @@ import Bullet.BulletType;
  * ...
  * @author Martin Long Gonzalez
  */
-class ProjectileBullet extends Bullet 
+class BazookaBullet extends Bullet 
 {
 
-	public static var CB_PROJECTILE_BULLET:CbType = new CbType();
+	public static var CB_BAZOOKA_BULLET:CbType = new CbType();
 	
 	public function new(x, y) 
 	{
 		super(x, y);
-		this.bulletType = BulletType.Projectile;
+		this.bulletType = BulletType.Bazooka;
 		this.speed = 500;
 		this.damage = 50;
 		this.explotionRadius = 40;
 		createCircularBody(2);
 		body.space = FlxNapeSpace.space;
-		body.cbTypes.add(CB_PROJECTILE_BULLET);
+		body.cbTypes.add(CB_BAZOOKA_BULLET);
 	}
 	
 }

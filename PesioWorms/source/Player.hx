@@ -24,7 +24,7 @@ class Player extends FlxNapeSprite
 	public function new(x, y)
 	{
 		super(x, y, null, false);
-		bulletSelected = BulletType.Projectile;
+		bulletSelected = BulletType.Bazooka;
 		createRectangularBody(30, 30);
 
 

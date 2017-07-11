@@ -5,9 +5,10 @@ import flixel.addons.nape.FlxNapeSprite;
  * @author 
  */
 
- enum BulletType {
-			Projectile;
-			Straight;
+ enum BulletType { // To keep the value of the weapon choosed by the player
+			Bazooka;
+			Shotgun;
+			SpaceRift;
 }
  
 class Bullet extends FlxNapeSprite
@@ -17,10 +18,8 @@ class Bullet extends FlxNapeSprite
 	public var speed:Float;
 	public var explotionRadius:Int;
 	public var damage:Int;
-	public var had_contact:Bool;
 	 	
 		public function new(x, y) {
 			super(x, y, null, false);
-			had_contact = false;
 		}
 }

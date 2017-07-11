@@ -7,22 +7,22 @@ import Bullet.BulletType;
  * ...
  * @author ...
  */
-class StraightBullet extends Bullet
+class ShotgunBullet extends Bullet
 {
 
 	
-	public static var CB_STRAIGHT_BULLET:CbType = new CbType();
+	public static var CB_SHOTGUN_BULLET:CbType = new CbType();
 	
 	public function new(x, y) 
 	{
 		super(x, y);
-		this.bulletType = BulletType.Straight;
+		this.bulletType = BulletType.Shotgun;
 		this.speed = 3000;
 		this.damage = 35;
 		this.explotionRadius = 10; // > Ratio Less explotion radius
 		createCircularBody(2);
 		body.space = FlxNapeSpace.space;
-		body.cbTypes.add(CB_STRAIGHT_BULLET);
+		body.cbTypes.add(CB_SHOTGUN_BULLET);
 	}
 	
 }
