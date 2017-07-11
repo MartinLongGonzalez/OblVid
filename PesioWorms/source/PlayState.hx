@@ -110,10 +110,15 @@ class PlayState extends FlxState
 
 		// Create bomb sprite for destruction
 		//player = player1;
-		bomb = new Sprite();
-		bomb.graphics.beginFill(0xffffff, 1);
-		bomb.graphics.drawCircle(0, 0, 40);
+		createBomb(40); // Bazooka bomb
+	}
 
+	private function createBomb(radius:Float)
+	{
+		var newBomb = new Sprite();
+		newBomb .graphics.beginFill(0xffffff, 1);
+		newBomb .graphics.drawCircle(0, 0, radius);
+		this.bomb = newBomb;
 	}
 
 	private function init_collisions() : Void
@@ -181,14 +186,14 @@ class PlayState extends FlxState
 		add(text_weapon);
 	}
 
-	function explosion(pos:Vec2, explosionRatio:Float = 2)
+	function explosion(pos:Vec2)
 	{
 		var region = AABB.fromRect(bomb.getBounds(bomb));
 		// Erase bomb graphic out of terrain.
 		#if flash
 		terrain.bitmap.draw(bomb, new Matrix(1, 0, 0, 1, pos.x, pos.y), null, BlendMode.ERASE);
 		#else
-		var radius:Int = Std.int(region.width / explosionRatio);
+		var radius:Int = Std.int(region.width / 2);
 		var diameter:Int = 2 * radius;
 		var radiusSquared:Int = radius * radius;
 		var centerX:Int = Std.int(pos.x);
@@ -287,7 +292,7 @@ class PlayState extends FlxState
 		}
 		super.update(elapsed);
 	}
-	
+
 	private function updateTimer()
 	{
 		var timeElapsed = 20 - Turn.instance().timer.currentCount / 100;
@@ -338,9 +343,10 @@ class PlayState extends FlxState
 		var playerPosY = Turn.instance().player.body.position.y;
 		switch (Turn.instance().player.bulletSelected)
 		{
-			case BulletType.Projectile: { bullet = new ProjectileBullet(playerPosX, playerPosY - 30); }
+			case BulletType.Projectile: { bullet = new ProjectileBullet(playerPosX, playerPosY - 30);}
 			case BulletType.Straight: { bullet = new StraightBullet(playerPosX, playerPosY - 30); }
 		}
+		createBomb(bullet.explotionRadius);
 		add(bullet);
 		var angle = FlxG.mouse.getPosition()
 					.angleBetween(FlxPoint.get(bullet.body.position.x, bullet.body.position.y));
@@ -366,7 +372,7 @@ class PlayState extends FlxState
 				}
 				else
 				{
-					explosion(bullet.body.position, bullet.explotionRatio);
+					explosion(bullet.body.position);
 					bullet.destroy();
 				}
 			}

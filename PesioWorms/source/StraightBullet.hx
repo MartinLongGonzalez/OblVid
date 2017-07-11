@@ -19,7 +19,7 @@ class StraightBullet extends Bullet
 		this.bulletType = BulletType.Straight;
 		this.speed = 3000;
 		this.damage = 35;
-		this.explotionRatio = 4; // > Ratio Less explotion radius
+		this.explotionRadius = 10; // > Ratio Less explotion radius
 		createCircularBody(2);
 		body.space = FlxNapeSpace.space;
 		body.cbTypes.add(CB_STRAIGHT_BULLET);

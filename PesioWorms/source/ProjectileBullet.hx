@@ -21,7 +21,7 @@ class ProjectileBullet extends Bullet
 		this.bulletType = BulletType.Projectile;
 		this.speed = 500;
 		this.damage = 50;
-		this.explotionRatio = 2; // > Ratio Less explotion radius
+		this.explotionRadius = 40;
 		createCircularBody(2);
 		body.space = FlxNapeSpace.space;
 		body.cbTypes.add(CB_PROJECTILE_BULLET);

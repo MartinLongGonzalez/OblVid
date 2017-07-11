@@ -15,7 +15,7 @@ class Bullet extends FlxNapeSprite
 	
 	public var bulletType:BulletType; 
 	public var speed:Float;
-	public var explotionRatio:Float;
+	public var explotionRadius:Int;
 	public var damage:Int;
 	public var had_contact:Bool;
 	 	
