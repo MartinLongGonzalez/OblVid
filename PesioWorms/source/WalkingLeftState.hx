@@ -29,7 +29,7 @@ class WalkingLeftState implements PlayerState
 	public function new(player:Player)
 	{
 		this.player = player;
-		this.player.body.allowMovement = true;
+		player.body.velocity.x = -150;
 	}
 
 }
