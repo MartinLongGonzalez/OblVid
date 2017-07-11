@@ -14,7 +14,7 @@ class WalkingLeftState implements PlayerState
 	{
 		if (FlxG.keys.pressed.LEFT)     // left
 		{
-			player.body.velocity.x = -100;
+			player.body.velocity.x = -150;
 		}
 		if (FlxG.keys.justReleased.LEFT)
 		{

@@ -40,8 +40,8 @@ class Player extends FlxNapeSprite
 		//createRectangularBody(20,40);
 		body.space = FlxNapeSpace.space;
 		body.allowRotation = false;
-		setBodyMaterial(0);// Elasticity = 0
-
+		elasticity = 0;
+		//setBodyMaterial(0,0.05,0.08);// Valores default-->  Elasticidad 1, Rozamiento Cinetico 0.2 , Rozamiento Estatico 0.4 , Densidad
 	}
 
 	public function addCbType(cbType)
