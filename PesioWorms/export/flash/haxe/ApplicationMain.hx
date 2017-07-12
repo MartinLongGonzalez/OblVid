@@ -30,7 +30,19 @@ class ApplicationMain {
 		var types = [];
 		
 		
+		urls.push ("assets/Checkbox.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/CheckboxSelected.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("assets/CustomPreload/logo.jpg");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/DrownInWaterText.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -55,6 +67,10 @@ class ApplicationMain {
 		
 		
 		urls.push ("assets/NewGameBtn.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/OptionsBtn.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -167,11 +183,7 @@ class ApplicationMain {
 		
 		config = {
 			
-<<<<<<< HEAD
-			build: "209",
-=======
-			build: "206",
->>>>>>> db6b7984d01dcfbe0a6bd5e6da9a76aef94d59bf
+			build: "64",
 			company: "HaxeFlixel",
 			file: "PesioWorms",
 			fps: 60,

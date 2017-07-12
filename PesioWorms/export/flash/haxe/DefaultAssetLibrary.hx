@@ -66,6 +66,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
+		
+		
+		
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_nokiafc22_ttf);
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_monsterrat_ttf);
 		
@@ -75,8 +79,14 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		#if flash
 		
+		className.set ("assets/Checkbox.png", __ASSET__assets_checkbox_png);
+		type.set ("assets/Checkbox.png", AssetType.IMAGE);
+		className.set ("assets/CheckboxSelected.png", __ASSET__assets_checkboxselected_png);
+		type.set ("assets/CheckboxSelected.png", AssetType.IMAGE);
 		className.set ("assets/CustomPreload/logo.jpg", __ASSET__assets_custompreload_logo_jpg);
 		type.set ("assets/CustomPreload/logo.jpg", AssetType.IMAGE);
+		className.set ("assets/DrownInWaterText.png", __ASSET__assets_drowninwatertext_png);
+		type.set ("assets/DrownInWaterText.png", AssetType.IMAGE);
 		className.set ("assets/GenerateMapBtn.png", __ASSET__assets_generatemapbtn_png);
 		type.set ("assets/GenerateMapBtn.png", AssetType.IMAGE);
 		className.set ("assets/hero.png", __ASSET__assets_hero_png);
@@ -89,6 +99,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/music/boris.mp3", AssetType.MUSIC);
 		className.set ("assets/NewGameBtn.png", __ASSET__assets_newgamebtn_png);
 		type.set ("assets/NewGameBtn.png", AssetType.IMAGE);
+		className.set ("assets/OptionsBtn.png", __ASSET__assets_optionsbtn_png);
+		type.set ("assets/OptionsBtn.png", AssetType.IMAGE);
 		className.set ("assets/Patagonia30.jpg", __ASSET__assets_patagonia30_jpg);
 		type.set ("assets/Patagonia30.jpg", AssetType.IMAGE);
 		className.set ("assets/PlayAgainBtn.png", __ASSET__assets_playagainbtn_png);
@@ -118,7 +130,19 @@ class DefaultAssetLibrary extends AssetLibrary {
 		#elseif html5
 		
 		var id;
+		id = "assets/Checkbox.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/CheckboxSelected.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
 		id = "assets/CustomPreload/logo.jpg";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/DrownInWaterText.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
@@ -143,6 +167,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		type.set (id, AssetType.MUSIC);
 		id = "assets/NewGameBtn.png";
+		path.set (id, id);
+		
+		type.set (id, AssetType.IMAGE);
+		id = "assets/OptionsBtn.png";
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
@@ -212,8 +240,17 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		var useManifest = false;
 		
+		className.set ("assets/Checkbox.png", __ASSET__assets_checkbox_png);
+		type.set ("assets/Checkbox.png", AssetType.IMAGE);
+		
+		className.set ("assets/CheckboxSelected.png", __ASSET__assets_checkboxselected_png);
+		type.set ("assets/CheckboxSelected.png", AssetType.IMAGE);
+		
 		className.set ("assets/CustomPreload/logo.jpg", __ASSET__assets_custompreload_logo_jpg);
 		type.set ("assets/CustomPreload/logo.jpg", AssetType.IMAGE);
+		
+		className.set ("assets/DrownInWaterText.png", __ASSET__assets_drowninwatertext_png);
+		type.set ("assets/DrownInWaterText.png", AssetType.IMAGE);
 		
 		className.set ("assets/GenerateMapBtn.png", __ASSET__assets_generatemapbtn_png);
 		type.set ("assets/GenerateMapBtn.png", AssetType.IMAGE);
@@ -232,6 +269,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("assets/NewGameBtn.png", __ASSET__assets_newgamebtn_png);
 		type.set ("assets/NewGameBtn.png", AssetType.IMAGE);
+		
+		className.set ("assets/OptionsBtn.png", __ASSET__assets_optionsbtn_png);
+		type.set ("assets/OptionsBtn.png", AssetType.IMAGE);
 		
 		className.set ("assets/Patagonia30.jpg", __ASSET__assets_patagonia30_jpg);
 		type.set ("assets/Patagonia30.jpg", AssetType.IMAGE);
@@ -913,13 +953,17 @@ class DefaultAssetLibrary extends AssetLibrary {
 #if !display
 #if flash
 
+@:keep @:bind #if display private #end class __ASSET__assets_checkbox_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_checkboxselected_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_custompreload_logo_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_drowninwatertext_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_generatemapbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_hero_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_highscoresbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_mainmenubtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_music_boris_mp3 extends flash.media.Sound { }
 @:keep @:bind #if display private #end class __ASSET__assets_newgamebtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_optionsbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_patagonia30_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_playagainbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_scoresbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
@@ -951,6 +995,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 
+
+
+
+
 @:keep #if display private #end class __ASSET__flixel_fonts_nokiafc22_ttf extends lime.text.Font { public function new () { super (); name = "Nokia Cellphone FC Small"; } } 
 @:keep #if display private #end class __ASSET__flixel_fonts_monsterrat_ttf extends lime.text.Font { public function new () { super (); name = "Monsterrat"; } } 
 
@@ -964,13 +1012,17 @@ class DefaultAssetLibrary extends AssetLibrary {
 #if (windows || mac || linux || cpp)
 
 
+@:image("assets/Checkbox.png") #if display private #end class __ASSET__assets_checkbox_png extends lime.graphics.Image {}
+@:image("assets/CheckboxSelected.png") #if display private #end class __ASSET__assets_checkboxselected_png extends lime.graphics.Image {}
 @:image("assets/CustomPreload/logo.jpg") #if display private #end class __ASSET__assets_custompreload_logo_jpg extends lime.graphics.Image {}
+@:image("assets/DrownInWaterText.png") #if display private #end class __ASSET__assets_drowninwatertext_png extends lime.graphics.Image {}
 @:image("assets/GenerateMapBtn.png") #if display private #end class __ASSET__assets_generatemapbtn_png extends lime.graphics.Image {}
 @:image("assets/hero.png") #if display private #end class __ASSET__assets_hero_png extends lime.graphics.Image {}
 @:image("assets/HighscoresBtn.png") #if display private #end class __ASSET__assets_highscoresbtn_png extends lime.graphics.Image {}
 @:image("assets/MainMenuBtn.png") #if display private #end class __ASSET__assets_mainmenubtn_png extends lime.graphics.Image {}
 @:file("assets/music/boris.mp3") #if display private #end class __ASSET__assets_music_boris_mp3 extends lime.utils.Bytes {}
 @:image("assets/NewGameBtn.png") #if display private #end class __ASSET__assets_newgamebtn_png extends lime.graphics.Image {}
+@:image("assets/OptionsBtn.png") #if display private #end class __ASSET__assets_optionsbtn_png extends lime.graphics.Image {}
 @:image("assets/Patagonia30.jpg") #if display private #end class __ASSET__assets_patagonia30_jpg extends lime.graphics.Image {}
 @:image("assets/PlayAgainBtn.png") #if display private #end class __ASSET__assets_playagainbtn_png extends lime.graphics.Image {}
 @:image("assets/ScoresBtn.png") #if display private #end class __ASSET__assets_scoresbtn_png extends lime.graphics.Image {}

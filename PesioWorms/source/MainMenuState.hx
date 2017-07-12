@@ -28,8 +28,8 @@ class MainMenuState extends FlxState
 		newGameBtn.loadGraphic("assets/NewGameBtn.png");
 		newGameBtn.screenCenter(FlxAxes.X);
         add(newGameBtn);
-		var highscoresBtn:FlxButton = new FlxButton(0, screenHeight*3/5, "", HighscoresOnClick);
-		highscoresBtn.loadGraphic("assets/HighscoresBtn.png");
+		var highscoresBtn:FlxButton = new FlxButton(0, screenHeight*3/5, "", OptionsOnClick);
+		highscoresBtn.loadGraphic("assets/OptionsBtn.png");
 		highscoresBtn.screenCenter(FlxAxes.X);
         add(highscoresBtn);
 	}
@@ -39,7 +39,7 @@ class MainMenuState extends FlxState
         FlxG.switchState(new GameMenuState());
     }
 	
-	private function HighscoresOnClick():Void
+	private function OptionsOnClick():Void
     {
         FlxG.switchState(new PlayState());
     }
