@@ -1,5 +1,6 @@
 package ;
 
+import flixel.FlxG;
 import flixel.addons.nape.FlxNapeSpace;
 import flixel.addons.nape.FlxNapeSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -26,6 +27,7 @@ class BazookaBullet extends Bullet
 		createCircularBody(this.bulletSizeRadius);
 		body.space = FlxNapeSpace.space;
 		body.cbTypes.add(CB_BAZOOKA_BULLET);
+		FlxG.sound.play("assets/music/bazooka.wav", 1, false);
 	}
 	
 }

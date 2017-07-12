@@ -71,7 +71,7 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		init();
-
+		
 		super.create();
 	}
 
@@ -261,7 +261,6 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float):Void
 	{
-		CheckGameEnd();
 		
 		if (playersInMap < playersPlaying && FlxG.mouse.justPressed )
 		{
@@ -290,9 +289,15 @@ class PlayState extends FlxState
 		else{
 			if (Turn.instance().paused != true && playersInMap>=playersPlaying )
 			{
-				for (player in Turn.instance().players) // se debería lamar solo creo
+				for (player in Turn.instance().players)
+				{
+					if (GameConfigurations.instance().getDrownInWater() && player.body.position.y >= FlxG.height - 16)
+					{
+						player.healthPoints = 0;
+					}
 					player.update(elapsed);
-				//Turn.instance().player.update(elapsed);
+				}
+					
 
 				if (FlxG.keys.pressed.ONE)
 				{
@@ -341,6 +346,7 @@ class PlayState extends FlxState
 			}
 
 		}
+		CheckGameEnd();
 		super.update(elapsed);
 
 	}
@@ -478,7 +484,7 @@ class PlayState extends FlxState
 
 	public function bulletHitPlayer(callback:InteractionCallback)
 	{
-
+		FlxG.sound.play("assets/music/hit.WAV", 1, false);
 		if (bullet!=null)
 		{
 			var bullet_dmg = bullet.damage;
@@ -581,11 +587,20 @@ class PlayState extends FlxState
 		{
 			if (player.healthPoints <= 0){
 				var gameEndState = new GameEndState();
-				gameEndState.setMainText("You Win!");
+				if (player.cbType == Player.CB_PLAYER1)
+				{
+					gameEndState.setMainText(2);
+				}
+				else
+				{
+					gameEndState.setMainText(1);
+				}
 				Turn.restart();
 				FlxG.switchState(gameEndState);
+				break;
 			}
 		}
+		
 	}
 
 }

@@ -12,11 +12,12 @@ import flixel.util.FlxAxes;
 class GameEndState extends FlxState 
 {
 
-	private var mainText:String;
+	private var mainText:FlxTextField;
+	private var winner:Int;
 	
-	public function setMainText(text:String):Void
+	public function setMainText(text:Int):Void
 	{
-		this.mainText = text;
+		this.winner = text;
 	}
 
 	override public function create():Void
@@ -29,7 +30,7 @@ class GameEndState extends FlxState
 	private function init():Void
 	{
 		var screenHeight = FlxG.height;
-		var mainText:FlxTextField = new FlxTextField(10, 10, 100, "Player 1: 100 HP", 9, true, null);
+		mainText = new FlxTextField(10, 10, 100, "Player 1: 100 HP", 9, true, null);
 		mainText.screenCenter(FlxAxes.X);
         add(mainText);
 		var playAgainBtn:FlxButton = new FlxButton(0, screenHeight/5, "", PlayAgainOnClick);
@@ -54,6 +55,10 @@ class GameEndState extends FlxState
 	
 	override public function update(elapsed:Float):Void
 	{
+		if (mainText != null)
+		{
+			this.mainText.text = "Player " + Std.string(this.winner) + " won";
+		}
 		super.update(elapsed);
 	}
 	

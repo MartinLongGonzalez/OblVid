@@ -15,7 +15,7 @@ class GameConfigurations
 	public static function instance():GameConfigurations
 	{
 		if (config == null){
-			config = new GameConfigurations(200, true);
+			config = new GameConfigurations(200, false);
 		}
 		return config;
 	}

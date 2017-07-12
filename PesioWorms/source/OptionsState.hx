@@ -77,14 +77,15 @@ class OptionsState extends FlxState
 		}
 		else
 		{
-			drownInWaterCheckbox.loadGraphic("assets/Checkbox.png", false, 38, 37);
+			drownInWaterCheckbox.loadGraphic("assets/CheckboxSelected.png", false, 38, 37);
 			GameConfigurations.instance().setDrownInWater(true);
 		}
     }
 	
 	private function MainMenuOnClick():Void
     {
-		GameConfigurations.instance().setPlayersLife(Std.int(playersLifeSlider.value));
+		var life = Std.int(playersLifeSlider.value);
+		GameConfigurations.instance().setPlayersLife(life==0?200:life);
         FlxG.switchState(new MainMenuState());
     }
 	

@@ -1,4 +1,5 @@
 package ;
+import flixel.FlxG;
 import flixel.addons.nape.FlxNapeSpace;
 import flixel.addons.nape.FlxNapeSprite;
 import nape.callbacks.CbType;
@@ -24,6 +25,7 @@ class ShotgunBullet extends Bullet
 		createCircularBody(this.bulletSizeRadius);
 		body.space = FlxNapeSpace.space;
 		body.cbTypes.add(CB_SHOTGUN_BULLET);
+		//FlxG.sound.play("assets/music/shotgun.WAV", 1, false);
 	}
 	
 }

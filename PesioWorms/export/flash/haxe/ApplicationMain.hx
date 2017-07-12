@@ -62,7 +62,23 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
+		urls.push ("assets/music/bazooka.wav");
+		types.push (lime.Assets.AssetType.SOUND);
+		
+		
 		urls.push ("assets/music/boris.mp3");
+		types.push (lime.Assets.AssetType.MUSIC);
+		
+		
+		urls.push ("assets/music/hit.WAV");
+		types.push (lime.Assets.AssetType.SOUND);
+		
+		
+		urls.push ("assets/music/shotgun.WAV");
+		types.push (lime.Assets.AssetType.SOUND);
+		
+		
+		urls.push ("assets/music/space_rift.mp3");
 		types.push (lime.Assets.AssetType.MUSIC);
 		
 		
@@ -187,7 +203,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "80",
+			build: "108",
 			company: "HaxeFlixel",
 			file: "PesioWorms",
 			fps: 60,

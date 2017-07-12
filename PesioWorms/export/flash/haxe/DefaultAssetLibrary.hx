@@ -71,6 +71,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
+		
+		
+		
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_nokiafc22_ttf);
 		openfl.text.Font.registerFont (__ASSET__OPENFL__flixel_fonts_monsterrat_ttf);
 		
@@ -96,8 +100,16 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set ("assets/HighscoresBtn.png", AssetType.IMAGE);
 		className.set ("assets/MainMenuBtn.png", __ASSET__assets_mainmenubtn_png);
 		type.set ("assets/MainMenuBtn.png", AssetType.IMAGE);
+		className.set ("assets/music/bazooka.wav", __ASSET__assets_music_bazooka_wav);
+		type.set ("assets/music/bazooka.wav", AssetType.SOUND);
 		className.set ("assets/music/boris.mp3", __ASSET__assets_music_boris_mp3);
 		type.set ("assets/music/boris.mp3", AssetType.MUSIC);
+		className.set ("assets/music/hit.WAV", __ASSET__assets_music_hit_wav);
+		type.set ("assets/music/hit.WAV", AssetType.SOUND);
+		className.set ("assets/music/shotgun.WAV", __ASSET__assets_music_shotgun_wav);
+		type.set ("assets/music/shotgun.WAV", AssetType.SOUND);
+		className.set ("assets/music/space_rift.mp3", __ASSET__assets_music_space_rift_mp3);
+		type.set ("assets/music/space_rift.mp3", AssetType.MUSIC);
 		className.set ("assets/NewGameBtn.png", __ASSET__assets_newgamebtn_png);
 		type.set ("assets/NewGameBtn.png", AssetType.IMAGE);
 		className.set ("assets/OptionsBtn.png", __ASSET__assets_optionsbtn_png);
@@ -165,7 +177,23 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.IMAGE);
+		id = "assets/music/bazooka.wav";
+		path.set (id, id);
+		
+		type.set (id, AssetType.SOUND);
 		id = "assets/music/boris.mp3";
+		path.set (id, id);
+		
+		type.set (id, AssetType.MUSIC);
+		id = "assets/music/hit.WAV";
+		path.set (id, id);
+		
+		type.set (id, AssetType.SOUND);
+		id = "assets/music/shotgun.WAV";
+		path.set (id, id);
+		
+		type.set (id, AssetType.SOUND);
+		id = "assets/music/space_rift.mp3";
 		path.set (id, id);
 		
 		type.set (id, AssetType.MUSIC);
@@ -271,8 +299,20 @@ class DefaultAssetLibrary extends AssetLibrary {
 		className.set ("assets/MainMenuBtn.png", __ASSET__assets_mainmenubtn_png);
 		type.set ("assets/MainMenuBtn.png", AssetType.IMAGE);
 		
+		className.set ("assets/music/bazooka.wav", __ASSET__assets_music_bazooka_wav);
+		type.set ("assets/music/bazooka.wav", AssetType.SOUND);
+		
 		className.set ("assets/music/boris.mp3", __ASSET__assets_music_boris_mp3);
 		type.set ("assets/music/boris.mp3", AssetType.MUSIC);
+		
+		className.set ("assets/music/hit.WAV", __ASSET__assets_music_hit_wav);
+		type.set ("assets/music/hit.WAV", AssetType.SOUND);
+		
+		className.set ("assets/music/shotgun.WAV", __ASSET__assets_music_shotgun_wav);
+		type.set ("assets/music/shotgun.WAV", AssetType.SOUND);
+		
+		className.set ("assets/music/space_rift.mp3", __ASSET__assets_music_space_rift_mp3);
+		type.set ("assets/music/space_rift.mp3", AssetType.MUSIC);
 		
 		className.set ("assets/NewGameBtn.png", __ASSET__assets_newgamebtn_png);
 		type.set ("assets/NewGameBtn.png", AssetType.IMAGE);
@@ -971,7 +1011,11 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:keep @:bind #if display private #end class __ASSET__assets_generatemapbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_highscoresbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_mainmenubtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
+@:keep @:bind #if display private #end class __ASSET__assets_music_bazooka_wav extends flash.media.Sound { }
 @:keep @:bind #if display private #end class __ASSET__assets_music_boris_mp3 extends flash.media.Sound { }
+@:keep @:bind #if display private #end class __ASSET__assets_music_hit_wav extends flash.media.Sound { }
+@:keep @:bind #if display private #end class __ASSET__assets_music_shotgun_wav extends flash.media.Sound { }
+@:keep @:bind #if display private #end class __ASSET__assets_music_space_rift_mp3 extends flash.media.Sound { }
 @:keep @:bind #if display private #end class __ASSET__assets_newgamebtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_optionsbtn_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_patagonia30_jpg extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
@@ -990,6 +1034,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 #elseif html5
+
+
+
+
 
 
 
@@ -1032,7 +1080,11 @@ class DefaultAssetLibrary extends AssetLibrary {
 @:image("assets/GenerateMapBtn.png") #if display private #end class __ASSET__assets_generatemapbtn_png extends lime.graphics.Image {}
 @:image("assets/HighscoresBtn.png") #if display private #end class __ASSET__assets_highscoresbtn_png extends lime.graphics.Image {}
 @:image("assets/MainMenuBtn.png") #if display private #end class __ASSET__assets_mainmenubtn_png extends lime.graphics.Image {}
+@:file("assets/music/bazooka.wav") #if display private #end class __ASSET__assets_music_bazooka_wav extends lime.utils.Bytes {}
 @:file("assets/music/boris.mp3") #if display private #end class __ASSET__assets_music_boris_mp3 extends lime.utils.Bytes {}
+@:file("assets/music/hit.WAV") #if display private #end class __ASSET__assets_music_hit_wav extends lime.utils.Bytes {}
+@:file("assets/music/shotgun.WAV") #if display private #end class __ASSET__assets_music_shotgun_wav extends lime.utils.Bytes {}
+@:file("assets/music/space_rift.mp3") #if display private #end class __ASSET__assets_music_space_rift_mp3 extends lime.utils.Bytes {}
 @:image("assets/NewGameBtn.png") #if display private #end class __ASSET__assets_newgamebtn_png extends lime.graphics.Image {}
 @:image("assets/OptionsBtn.png") #if display private #end class __ASSET__assets_optionsbtn_png extends lime.graphics.Image {}
 @:image("assets/Patagonia30.jpg") #if display private #end class __ASSET__assets_patagonia30_jpg extends lime.graphics.Image {}
