@@ -208,8 +208,8 @@ class PlayState extends FlxState
 
 	private function setTextFields()
 	{
-		text_hp_p1 = new FlxTextField(10, 10, 100, "Player 1: 100 HP", 9, true, null);
-		text_hp_p2 = new FlxTextField(550, 10, 100, "Player 2: 100 HP", 9, true, null);
+		text_hp_p1 = new FlxTextField(10, 10, 100, "Player 1: "+GameConfigurations.instance().getPlayersLife(), 9, true, null);
+		text_hp_p2 = new FlxTextField(550, 10, 100, "Player 2: "+GameConfigurations.instance().getPlayersLife(), 9, true, null);
 		text_time = new FlxTextField(320, 10, 100, "20", 9, true, null);
 		text_weapon = new FlxTextField(320, 20, 100, "BAZOOKA", 9, true, null);
 		text_damage_p2 = new FlxTextField(1, 1, 110, "0", 12, true, null);

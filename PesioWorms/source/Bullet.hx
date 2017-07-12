@@ -23,5 +23,6 @@ class Bullet extends FlxNapeSprite
 	 	
 		public function new(x, y) {
 			super(x, y, null, false);
+			loadGraphic("assets/bullet.png");
 		}
 }

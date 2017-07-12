@@ -41,7 +41,7 @@ class MainMenuState extends FlxState
 	
 	private function OptionsOnClick():Void
     {
-        FlxG.switchState(new PlayState());
+        FlxG.switchState(new OptionsState());
     }
 	
 	override public function update(elapsed:Float):Void

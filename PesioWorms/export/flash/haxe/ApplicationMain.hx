@@ -30,6 +30,10 @@ class ApplicationMain {
 		var types = [];
 		
 		
+		urls.push ("assets/bullet.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("assets/Checkbox.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
@@ -47,10 +51,6 @@ class ApplicationMain {
 		
 		
 		urls.push ("assets/GenerateMapBtn.png");
-		types.push (lime.Assets.AssetType.IMAGE);
-		
-		
-		urls.push ("assets/hero.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -95,6 +95,10 @@ class ApplicationMain {
 		
 		
 		urls.push ("assets/worm_left.png");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
+		urls.push ("assets/worm_right.png");
 		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
@@ -183,7 +187,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "64",
+			build: "80",
 			company: "HaxeFlixel",
 			file: "PesioWorms",
 			fps: 60,
